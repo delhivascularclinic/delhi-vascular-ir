@@ -1,0 +1,100 @@
+{
+  "iteration": 1,
+  "summary": "9 browser checks + 3 backend test files (8 pytest cases), all passing. 9 acceptance_matrix criteria covered (home hero/explorer counted as separate criteria, plus 1 public-preview smoke check).",
+  "passed": 12,
+  "failed": 0,
+  "flaky": 0,
+  "blocked": 0,
+  "test_error": 0,
+  "retest_needed": false,
+  "bugs": [],
+  "action_items": [
+    "Note (non-blocking): Contact/Referral/Admin-login forms and the home-page 3D explorer tabs ignore the FIRST click/submit right after navigation while the Three.js client bundle is still hydrating (confirmed via requestfinished listener showing zero network calls on the swallowed click, and a React hydration-mismatch console warning on the date input). A short settle wait (or a second click) after the page's heavy client JS mounts reliably works around it. Recommend main agent either guard interactive handlers until hydration completes or confirm this is acceptable dev-server behavior (briefing already flags slow first compiles)."
+  ],
+  "checks": [
+    {
+      "criterion": "Cinematic 3D hero with headline and 3 CTAs",
+      "name": "home-hero-ctas",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "hero-headline text matches, hero-3d-canvas visible, doctor card shows Dr. Girendra Shankar / MBBS, MD, FVIR, EBIR / Moti Nagar; hero-book-btn -> /contact#book, hero-refer-btn -> /referrals#refer, hero-explore-btn scrolls #explorer into view"
+    },
+    {
+      "criterion": "Cinematic 3D hero (public ingress smoke check)",
+      "name": "home-hero-public-preview",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Ran against https://delhi-vascular-ir--7t3oh8d2.preview.emergentagent.com - hero-headline, hero-3d-canvas, nav buttons all visible"
+    },
+    {
+      "criterion": "Home 3D explorer with 6 flagship procedures",
+      "name": "home-explorer-flagship-tabs",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "All 6 explorer-tab-* testids present; clicking explorer-tab-evar and explorer-tab-aneurysm-coiling updates explorer-procedure-title accordingly"
+    },
+    {
+      "criterion": "Full 3D Procedure Explorer controls",
+      "name": "explorer-full-controls",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "47 explorer-select-* rows; selecting evar updates title; step buttons change explorer-step-caption; prev/next, play-toggle, zoom in/out, rotate (aria-pressed true), labels (aria-pressed true), reset all clickable; compare normal/disease toggle aria-pressed correctly exclusive; doctor mode shows 'Access' text; consult/refer links visible"
+    },
+    {
+      "criterion": "Procedure deep links",
+      "name": "explorer-deep-links",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "/explorer/evar, /explorer/tips, /explorer/rfa-ablation, /explorer/vertebroplasty each render procedure-explorer with the matching explorer-select-* row highlighted (bg-teal class) and zero pageerror events"
+    },
+    {
+      "criterion": "All navigation pages reachable",
+      "name": "all-nav-pages-reachable",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "nav-menu-button opens 12 menu-*-link items; /about shows about-affiliations; peripheral-vascular, neurointerventional, hepatobiliary, patient-information (+ DVT subpage), referrals, academics, contact, complex-interventions all render with nav-book-consult-btn/nav-refer-patient-btn visible; /services/office-based shows outpatient warning text"
+    },
+    {
+      "criterion": "Consultation form submission",
+      "name": "consult-form-submission",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Submitting with consent unchecked leaves consult-success absent; after checking consent, submit returns consult-success with reference matching /^CONS-[A-F0-9]{8}$/"
+    },
+    {
+      "criterion": "Consultation form submission (API)",
+      "name": "test_tscheck_consultation_form.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "POST /api/consultations with valid tscheck- payload -> 201, reference starts with CONS-; same payload with consent:false -> 422"
+    },
+    {
+      "criterion": "Referral form with private imaging upload",
+      "name": "referral-form-submission",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Filled referral-* fields, attached tscheck-scan.pdf via referral-files-input (shown in referral-file-list), checked consent, submit -> referral-success with reference matching /^REF-[A-F0-9]{8}$/"
+    },
+    {
+      "criterion": "Referral form validation & file-access auth (API)",
+      "name": "test_tscheck_referral_form.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "POST /api/referrals with tscheck- payload + PDF -> 201, reference starts with REF-; same payload with .exe attachment -> 400; GET /api/admin/files/{id} without cookie -> 401"
+    },
+    {
+      "criterion": "Password-protected admin inbox",
+      "name": "admin-inbox-flow",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Wrong password shows 'Invalid email or password' toast; correct creds (admin@delhivascularir.com) land in inbox; fixture consultation (tscheck-admin-inbox-<ts>) visible in Consultations tab; Referrals tab shows admin-referral-item with attachment download link pointing to /api/admin/files/...; status select PATCH shows 'Status updated' toast; Sign out returns to admin-login-form"
+    },
+    {
+      "criterion": "Password-protected admin inbox (API auth)",
+      "name": "test_tscheck_admin_inbox.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "GET /api/admin/counts|consultations|referrals without cookie -> 401; POST /api/admin/login wrong password -> 401; correct login + session cookie -> GET /api/admin/me 200, PATCH /api/admin/consultations/{id} status->reviewed 200, POST /api/admin/logout -> 204 (session is a stateless JWT so logout is a client-side cookie clear; the browser check covers the actual UI return-to-login behavior)"
+    }
+  ]
+}

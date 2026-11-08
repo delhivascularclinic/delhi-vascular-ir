@@ -1,0 +1,241 @@
+{
+  "theme_strategy": {
+    "mode": "hybrid_cinematic_clinical",
+    "description": "High-impact dark cinematic immersive hero with Three.js vascular canvas (pulsating aorta, flow particles, translucent anatomy) transitioning seamlessly into clean, luminous, high-precision clinical sections (white/off-white with deep navy and radiant teal/cyan accents). Gives the authority of a world-class vascular & interventional radiology center."
+  },
+  "colors": {
+    "palette": {
+      "deep_navy": "#071525",
+      "navy_panel": "#0B1D33",
+      "dark_blue": "#102A43",
+      "primary_teal": "#00B8B0",
+      "bright_cyan": "#52D6E8",
+      "clinical_bg": "#F8FAFC",
+      "clinical_card": "#FFFFFF",
+      "border_light": "#E2E8F0",
+      "border_dark": "#1E3A5F",
+      "text_dark": "#0F172A",
+      "text_muted": "#475569",
+      "text_light": "#F1F5F9",
+      "text_light_muted": "#94A3B8"
+    },
+    "surfaces": [
+      {
+        "name": "page",
+        "kind": "solid",
+        "bg": "#F8FAFC",
+        "on_bg": "#0F172A",
+        "on_bg_muted": "#475569",
+        "roles": {
+          "link": "#008B85",
+          "error": "#DC2626",
+          "success": "#059669"
+        }
+      },
+      {
+        "name": "panel",
+        "kind": "solid",
+        "bg": "#FFFFFF",
+        "on_bg": "#0F172A",
+        "on_bg_muted": "#475569",
+        "roles": {
+          "link": "#008B85",
+          "error": "#DC2626",
+          "success": "#059669"
+        }
+      },
+      {
+        "name": "inverse",
+        "kind": "solid",
+        "bg": "#071525",
+        "on_bg": "#F1F5F9",
+        "on_bg_muted": "#94A3B8",
+        "roles": {
+          "link": "#52D6E8",
+          "error": "#F87171",
+          "success": "#34D399"
+        }
+      },
+      {
+        "name": "dark_card",
+        "kind": "solid",
+        "bg": "#0B1D33",
+        "on_bg": "#F1F5F9",
+        "on_bg_muted": "#94A3B8",
+        "roles": {
+          "link": "#52D6E8",
+          "error": "#F87171",
+          "success": "#34D399"
+        }
+      },
+      {
+        "name": "hero",
+        "kind": "gradient",
+        "contrast_against": "#050E18",
+        "guarantee": "scrim: radial-gradient(circle at 70% 30%, rgba(0, 184, 176, 0.15), transparent 70%), linear-gradient(180deg, #071525 0%, #0B1D33 100%)",
+        "on_bg": "#FFFFFF",
+        "on_bg_muted": "#CBD5E1",
+        "roles": {
+          "link": "#52D6E8",
+          "error": "#FCA5A5",
+          "success": "#6EE7B7"
+        }
+      },
+      {
+        "name": "glass_header",
+        "kind": "glass",
+        "contrast_against": "#071525",
+        "guarantee": "backdrop-blur-xl bg-[#071525]/90 border-b border-[#1E3A5F]/60",
+        "on_bg": "#FFFFFF",
+        "on_bg_muted": "#94A3B8",
+        "roles": {
+          "link": "#52D6E8",
+          "error": "#F87171",
+          "success": "#34D399"
+        }
+      },
+      {
+        "name": "badge_accent",
+        "kind": "solid",
+        "bg": "#E6FFFA",
+        "on_bg": "#0D5E58",
+        "on_bg_muted": "#137A73"
+      },
+      {
+        "name": "badge_dark",
+        "kind": "solid",
+        "bg": "#102A43",
+        "on_bg": "#52D6E8",
+        "on_bg_muted": "#94A3B8"
+      }
+    ],
+    "accent": "#00B8B0",
+    "on_accent": "#042624"
+  },
+  "typography": {
+    "font_family_heading": "Sora, var(--font-sans), sans-serif",
+    "font_family_body": "Inter, var(--font-sans), sans-serif",
+    "font_family_mono": "IBM Plex Mono, monospace",
+    "scale_px": {
+      "display": 56,
+      "h1": 44,
+      "h2": 32,
+      "h3": 22,
+      "body": 16,
+      "caption": 14
+    },
+    "rules": {
+      "headings": "font-heading font-bold tracking-tight text-slate-900 dark:text-white leading-tight",
+      "body": "font-sans text-slate-600 dark:text-slate-300 leading-relaxed",
+      "labels": "font-mono uppercase text-xs tracking-wider text-teal-600 dark:text-teal-400 font-semibold"
+    }
+  },
+  "entry_surfaces": {
+    "/": "cinematic dark hero — doctor positioning & 3D vascular visualization left/centre, live status + quick action dock right, transitioning to luminous white clinical services and 3D procedure explorer",
+    "/procedure-explorer": "interactive 3D workstation viewport centre with docked 6-step timeline bottom, procedure selector left rail, and dual patient/doctor explanation telemetry panel right",
+    "/referrals": "high-trust split portal — doctor referral credentialing panel left, multi-step structured referral & imaging upload form right",
+    "/consultation": "clean clinical appointment booking panel — procedure selector, slot picker, and urgency triage cards",
+    "/admin": "secure clinical staff authentication portal — dark slate security frame with passkey / token login"
+  },
+  "image_urls": {
+    "doctor_profile": [
+      {
+        "url": "https://images.unsplash.com/photo-1550831107-1553da8c8464?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwxfHxkb2N0b3IlMjBzdXJnZW9uJTIwcG9ydHJhaXQlMjBob3NwaXRhbHxlbnwwfHx8fDE3OTQxNjA0Mjh8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Dr. Girendra Shankar, MBBS, MD, FVIR, EBIR in sterile interventional radiology attire",
+        "usage": "About Page hero, Doctor Profile Card, Consultation intro"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1550831106-0994fe8abcfe?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwyfHxkb2N0b3IlMjBzdXJnZW9uJTIwcG9ydHJhaXQlMjBob3NwaXRhbHxlbnwwfHx8fDE3OTQxNjA0Mjh8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Precision microvascular intervention magnification loupes",
+        "usage": "Complex Interventions showcase, Surgical precision section"
+      }
+    ],
+    "cath_lab_facilities": [
+      {
+        "url": "https://images.unsplash.com/photo-1734094546615-045bf5f7ea0e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDV8MHwxfHNlYXJjaHwxfHxvcGVyYXRpbmclMjByb29tJTIwbWVkaWNhbCUyMGltYWdpbmclMjBjYXRoJTIwbGFifGVufDB8fHx8MTc5NDE2MDQyOHww&ixlib=rb-4.1.0&q=85",
+        "description": "State-of-the-art Cath Lab / Hybrid Vascular OR suite with digital subtraction angiography (DSA)",
+        "usage": "Max Hospital shalimar bagh tie-up & facility capabilities gallery"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1775947933085-30050ddad6b3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDV8MHwxfHNlYXJjaHwzfHxvcGVyYXRpbmclMjByb29tJTIwbWVkaWNhbCUyMGltYWdpbmclMjBjYXRoJTIwbGFifGVufDB8fHx8MTc5NDE2MDQyOHww&ixlib=rb-4.1.0&q=85",
+        "description": "Interventional team performing endovascular aneurysm repair (EVAR)",
+        "usage": "Complex Aortic & Peripheral Vascular service page"
+      }
+    ],
+    "clinic_exterior": [
+      {
+        "url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwxfHxob3NwaXRhbCUyMGNsaW5pYyUyMG1vZGVybiUyMGJ1aWxkaW5nfGVufDB8fHx8MTc5NDE2MDQyOHww&ixlib=rb-4.1.0&q=85",
+        "description": "Delhi Vascular IR Clinic premium reception & outpatient consultation lounge, Moti Nagar",
+        "usage": "Contact Page & Clinic Visit Information"
+      }
+    ]
+  },
+  "interactive_3d_specs": {
+    "hero_3d": {
+      "type": "Three.js / HTML5 Canvas / R3F custom canvas",
+      "elements": [
+        "Translucent anatomical silhouette (torso & major branches)",
+        "Pulsating Aorta with cardiac rhythm shader and illuminated blood velocity particles",
+        "Arterial tree (bright ruby & cyan glowing arteries) and Venous network (deep sapphire blue)",
+        "Catheter wire path glow following mouse cursor / gyro coordinates",
+        "Interactive hotspot markers for Brain (Stroke/Aneurysm), Aorta (EVAR), Liver (TACE/TIPS), Leg (PAD/DVT)"
+      ],
+      "fallback": "Smooth layered animated SVG canvas with glowing particle paths for low-spec/reduced-motion devices"
+    },
+    "procedure_explorer_3d": {
+      "type": "Interactive WebGL 3D procedure workstation",
+      "features": [
+        "Category switch: Peripheral (PAD, CLI, Angioplasty), Aortic (EVAR, TEVAR), Venous (DVT, May-Thurner, Varicose, IVC), Neuro (Coiling, Flow Diverter, Thrombectomy, Carotid), Hepatobiliary (TACE, TARE, TIPS, PTBD), Embolisation (UAE, PAE, Bronchial), Ablation (RFA, MWA, Cryo), Office-based (Biopsy, Drainage, Nerve block)",
+        "6-Step interactive timeline: 1. Normal Anatomy -> 2. Pathology/Disease -> 3. Access & Strategy -> 4. Catheter & Guidewire Navigation -> 5. Device Deployment / Embolisation / Stenting -> 6. Post-Intervention Hemodynamics",
+        "Controls: 360 Orbit, Zoom, Structure isolate, Normal vs Diseased toggle, Step-by-step playback, Annotations toggle",
+        "Dual Mode: 'Patient Explanation Mode' (clear, reassuring, plain English/Hindi terms) vs 'Physician/Doctor Mode' (French sizes, guide catheter selections, technical endpoints, hemodynamic data, sizing criteria)",
+        "Clinical metadata: Indications, Relative Contraindications, Risks, Recovery Timeline, Referral Guidelines"
+      ]
+    }
+  },
+  "navigation_structure": {
+    "header": {
+      "brand": "Delhi Vascular IR Clinic",
+      "sub_brand": "Dr. Girendra Shankar | MD, FVIR, EBIR",
+      "links": [
+        { "name": "3D Explorer", "path": "/procedure-explorer" },
+        { "name": "Procedures", "path": "/procedures" },
+        { "name": "Specialties", "children": ["Peripheral Vascular", "Neurointerventions", "Hepatobiliary & Oncology", "Venous & DVT", "Office Procedures"] },
+        { "name": "About Dr.", "path": "/about-dr-girendra-shankar" },
+        { "name": "Patient Info", "path": "/patient-portal" },
+        { "name": "Academics", "path": "/academics" },
+        { "name": "Contact", "path": "/contact" }
+      ],
+      "persistent_ctas": [
+        { "label": "Book Consultation", "path": "/consultation", "variant": "primary", "testId": "nav-book-consult-btn" },
+        { "label": "Refer a Patient", "path": "/doctor-referrals", "variant": "outline", "testId": "nav-refer-patient-btn" }
+      ]
+    },
+    "footer": {
+      "clinic_location": "Main Clinic: Moti Nagar, New Delhi 110015 | Hospital Practice: Max Super Speciality Hospital, Shalimar Bagh, New Delhi",
+      "medical_disclaimer": "Medical Disclaimer: Visualisations, 3D simulations, and procedure information provided on this website are for educational and patient comprehension purposes only. They do not constitute formal medical diagnosis. Individual anatomy, disease presentation, and treatment suitability require formal clinical evaluation and radiological review by Dr. Girendra Shankar."
+    }
+  },
+  "data_model_and_admin": {
+    "admin_portal": {
+      "route": "/admin/inbox",
+      "security": "Demo passcode: 'VASCULAR_IR_2026' or admin role login",
+      "features": [
+        "Patient Consultation Enquiries (Triage: Routine / Urgent / Second Opinion)",
+        "Physician Referrals Inbox (with attached DICOM/CT/Doppler reports and priority tag)",
+        "Status tracking (New, Reviewed, Appointment Scheduled, Completed, Discharged)",
+        "Direct export & summary notes"
+      ]
+    }
+  },
+  "instructions_to_main_agent": {
+    "architecture": "Build full hybrid app inside Vite / React 19 (frontend/src) and FastAPI (backend). Ensure all ~45 procedures across all 8 subspecialties are catalogued with rich medical detail. Build responsive Three.js / Canvas 3D models with high aesthetic fidelity.",
+    "affiliations_timeline": [
+      { "period": "Present", "role": "Senior Consultant - Vascular & Interventional Radiology", "institution": "Max Super Speciality Hospital, Shalimar Bagh, Delhi" },
+      { "period": "Past", "role": "Senior Consultant & Head IR", "institution": "Sri Balaji Action Medical Institute & Action Cancer Hospital, Delhi" },
+      { "period": "Past", "role": "Associate Consultant - Interventional Radiology", "institution": "Medanta – The Medicity, Gurugram" }
+    ],
+    "testing_attributes": "Add data-testid on every button, form input, tab, selector, and modal trigger.",
+    "ui_components": "Use custom Tailwind with shadcn/ui components (Dialog, Tabs, Select, Button, Badge, Sheet, Card, Toaster Sonner)."
+  }
+}
