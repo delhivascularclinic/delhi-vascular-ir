@@ -68,13 +68,30 @@ export default function HomePage() {
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-clinical" aria-hidden />
       </section>
 
-      <section className="bg-clinical px-5 py-16 lg:px-8">
-        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[1fr_1.4fr]">
-          <h2 className="text-3xl font-semibold text-slate-900 sm:text-4xl">An independent specialist practice for complex image-guided care.</h2>
-          <div className="space-y-4 text-slate-600">
-            <p>Delhi Vascular IR Clinic in Moti Nagar is the independent practice of {CLINIC.doctor}. Procedures that need hospital facilities are performed in appropriately equipped hospital settings. Dr. Shankar&apos;s current hospital affiliation is {CLINIC.current}; the clinic itself is separate from the hospital.</p>
-            <p>Treatment recommendations are based on individual assessment, imaging and — where needed — multidisciplinary discussion. Minimally invasive options are explained alongside medical and surgical alternatives.</p>
+      <section className="bg-clinical px-5 py-20 lg:px-8" data-testid="home-intro-section">
+        <div className="mx-auto grid max-w-[1400px] items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+          <div>
+            <p className="label-mono text-teal">Image-guided, minimally invasive</p>
+            <h2 className="mt-3 text-3xl font-semibold text-slate-900 sm:text-4xl">An independent specialist practice for complex image-guided care.</h2>
+            <div className="mt-6 space-y-4 text-slate-600">
+              <p>Delhi Vascular IR Clinic in Moti Nagar is the independent practice of {CLINIC.doctor}. Procedures that need hospital facilities are performed in appropriately equipped hospital settings. Dr. Shankar&apos;s current hospital affiliation is {CLINIC.current}; the clinic itself is separate from the hospital.</p>
+              <p>Treatment recommendations are based on individual assessment, imaging and — where needed — multidisciplinary discussion. Minimally invasive options are explained alongside medical and surgical alternatives.</p>
+              <p>Interventional radiology treats disease from inside the blood vessels or through a needle, using live X-ray, ultrasound or CT guidance — usually through a pinhole rather than an open incision.</p>
+            </div>
           </div>
+          <motion.figure initial={reduced ? false : { opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.9, ease: [0.2, 0.7, 0.2, 1] }} className="relative" data-testid="home-procedure-photo">
+            <div className="absolute -inset-3 -z-0 rounded-[2rem] bg-gradient-to-br from-teal/15 via-transparent to-deep/20 blur-2xl" aria-hidden />
+            <div className="group relative overflow-hidden rounded-3xl shadow-[0_30px_80px_-30px_rgba(12,26,42,0.55)] ring-1 ring-black/5">
+              <img src={CLINIC.procedureImage} alt="Interventional radiologist guiding a catheter under live angiography in a hybrid procedure suite" width={1493} height={2000} loading="lazy"
+                className="aspect-[4/5] w-full object-cover object-[center_45%] transition-transform duration-700 group-hover:scale-[1.03] lg:max-h-[620px]" />
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-navy/80 to-transparent" aria-hidden />
+              <figcaption className="absolute bottom-4 left-4 right-4 rounded-xl border border-white/15 bg-navy/60 px-4 py-3 text-white backdrop-blur-md" data-testid="home-procedure-photo-caption">
+                <p className="label-mono text-cyan">Catheter-based treatment</p>
+                <p className="mt-1 text-sm text-slate-200">Live imaging guides wires and devices through the blood vessels. Illustrative image.</p>
+              </figcaption>
+            </div>
+          </motion.figure>
         </div>
       </section>
 

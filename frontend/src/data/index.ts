@@ -21,6 +21,7 @@ export const CATEGORIES: { id: CategoryId; title: string }[] = [
 export const CLINIC = {
   name: "Delhi Vascular IR Clinic",
   logo: "https://customer-assets-lqy194kg.emergentagent.net/job_delhi-vascular-ir--7t3oh8d2/artifacts/4de9011ed6b2ad91_Delhi%20IR%20%282%29.png",
+  procedureImage: "https://customer-assets-lqy194kg.emergentagent.net/job_delhi-vascular-ir--7t3oh8d2/artifacts/3c31fdb1a30ba6f0_Gemini_Generated_Image_c6cgmgc6cgmgc6cg.webp",
   doctor: "Dr. Girendra Shankar",
   quals: "MBBS, MD, FVIR, EBIR",
   role: "Vascular & Interventional Radiologist",
