@@ -3,7 +3,10 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Pause, Play, RotateCcw, Rotate3d, Tags, ZoomIn, ZoomOut } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pause, Play, RotateCcw, Rotate3d, Share2, Tags, ZoomIn, ZoomOut } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { apiPost, errorMessage } from "@/lib/api";
 import { PHASES, KIND_LABEL } from "@/components/three/core";
 import { TEMPLATES } from "@/components/three/anatomy";
 import type { Compare, ControlsApi } from "@/components/three/ProcedureScene";
@@ -27,6 +30,9 @@ function IconBtn({ label, onClick, children, active, testid }: { label: string; 
   );
 }
 
+export interface PatientContent { title: string; summary: string; patient: string; steps: string[]; indications: string[]; risks: string[]; alternatives: string[] }
+export interface TranslationOut { slug: string; lang: string; cached: boolean; content: PatientContent }
+
 export default function ProcedureExplorer({ initialSlug, slugs, compact = false }: { initialSlug?: string; slugs?: string[]; compact?: boolean }) {
   const list = useMemo(() => (slugs ? slugs.map((s) => getProcedure(s)!).filter(Boolean) : PROCEDURES), [slugs]);
   const [slug, setSlug] = useState(initialSlug ?? list[0].slug);
@@ -46,6 +52,34 @@ export default function ProcedureExplorer({ initialSlug, slugs, compact = false 
   const gl = useWebGL();
 
   useEffect(() => { if (reduced) setPlaying(false); }, [reduced]);
+  useEffect(() => {
+    const s = Number(new URLSearchParams(window.location.search).get("step"));
+    if (s >= 1 && s <= 6) { setStep(s - 1); setPlaying(false); progressRef.current = 1; }
+  }, []);
+  const [lang, setLang] = useState<"en" | "hi">("en");
+  const hi = useQuery({
+    queryKey: ["translation-hi", proc.slug],
+    queryFn: () => apiPost<TranslationOut>(`/translate/${proc.slug}`, {
+      title: proc.title, summary: proc.summary, patient: proc.patient, steps: proc.steps,
+      indications: proc.indications, risks: proc.risks, alternatives: proc.alternatives,
+    } satisfies PatientContent),
+    enabled: lang === "hi" && mode === "patient",
+    staleTime: Infinity,
+    retry: 0,
+  });
+  const hindi = lang === "hi" && mode === "patient" ? hi.data?.content : undefined;
+  const tx = {
+    steps: hindi?.steps ?? proc.steps, patient: hindi?.patient ?? proc.patient, indications: hindi?.indications ?? proc.indications,
+    risks: hindi?.risks ?? proc.risks, alternatives: hindi?.alternatives ?? proc.alternatives,
+  };
+  const share = async () => {
+    const url = `${window.location.origin}/explorer/${proc.slug}?step=${step + 1}`;
+    const text = `${proc.title} — step ${step + 1}: ${PHASES[step]}`;
+    try {
+      if (navigator.share) await navigator.share({ title: proc.title, text, url });
+      else { await navigator.clipboard.writeText(url); toast.success("Link copied", { description: `Opens at step ${step + 1}: ${PHASES[step]}` }); }
+    } catch { /* user cancelled share sheet */ }
+  };
   const goStep = (s: number) => {
     setCompare("none");
     setStep(Math.max(0, Math.min(5, s)));
@@ -133,6 +167,7 @@ export default function ProcedureExplorer({ initialSlug, slugs, compact = false 
             <IconBtn label="Auto-rotate" active={rotate} onClick={() => { apiRef.current?.setAutoRotate(!rotate); setRotate(!rotate); }} testid="explorer-rotate"><Rotate3d className="size-4" /></IconBtn>
             <IconBtn label="Show labels" active={labels} onClick={() => setLabels(!labels)} testid="explorer-labels"><Tags className="size-4" /></IconBtn>
             <IconBtn label="Reset view" onClick={() => apiRef.current?.reset()} testid="explorer-reset"><RotateCcw className="size-4" /></IconBtn>
+            <IconBtn label="Share this step" onClick={share} testid="explorer-share"><Share2 className="size-4" /></IconBtn>
           </div>
           {structure && (
             <div className="absolute bottom-20 left-4 rounded-xl border border-cyan/30 bg-navy/85 px-4 py-3 backdrop-blur-md" data-testid="explorer-selected-structure">
@@ -176,18 +211,31 @@ export default function ProcedureExplorer({ initialSlug, slugs, compact = false 
             </button>
           ))}
         </div>
-        <div className="flex-1 space-y-5 overflow-y-auto p-5 text-sm leading-relaxed">
+        <div className="flex-1 space-y-5 overflow-y-auto p-5 text-sm leading-relaxed" lang={hindi ? "hi" : "en"}>
+          {mode === "patient" && (
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex rounded-lg border border-border p-0.5 text-xs" role="group" aria-label="Language">
+                {([["en", "English"], ["hi", "हिन्दी"]] as const).map(([l, name]) => (
+                  <button key={l} type="button" onClick={() => setLang(l)} aria-pressed={lang === l} data-testid={`explorer-lang-${l}`}
+                    className={cn("rounded-md px-3 py-1.5 transition-colors", lang === l ? "bg-teal text-navy" : "text-slate-600 hover:text-slate-900")}>{name}</button>
+                ))}
+              </div>
+              {lang === "hi" && hi.isFetching && <span className="text-xs text-slate-500" data-testid="explorer-hindi-loading">हिन्दी अनुवाद तैयार हो रहा है…</span>}
+              {lang === "hi" && hi.isError && <button type="button" onClick={() => hi.refetch()} className="text-xs text-red-600 underline" data-testid="explorer-hindi-error">{errorMessage(hi.error)} Retry</button>}
+            </div>
+          )}
+          {hindi && <p className="text-xs text-slate-500" data-testid="explorer-hindi-note">AI-translated from English for easier reading — please confirm details with the doctor.</p>}
           <div className="rounded-xl bg-[#E6FFFA] p-4" data-testid="explorer-step-caption">
             <p className="label-mono text-[#137A73]">Step {step + 1}: {PHASES[step]}</p>
-            <p className="mt-1 text-[#0D5E58]">{mode === "patient" ? proc.steps[step] : proc.tech[step]}</p>
+            <p className="mt-1 text-[#0D5E58]">{mode === "patient" ? tx.steps[step] : proc.tech[step]}</p>
           </div>
-          {mode === "patient" ? <p className="text-slate-700">{proc.patient}</p> : (
+          {mode === "patient" ? <p className="text-slate-700" data-testid="explorer-patient-text">{tx.patient}</p> : (
             <>
               <p className="text-slate-700">{proc.doctor}</p>
               <p><span className="label-mono text-teal">Access</span><br />{proc.access}</p>
             </>
           )}
-          {[["Common indications", proc.indications], ["Risks & limitations", proc.risks], ["Alternatives", proc.alternatives]].map(([h, items]) => (
+          {[["Common indications", tx.indications], ["Risks & limitations", tx.risks], ["Alternatives", tx.alternatives]].map(([h, items]) => (
             <div key={h as string}>
               <p className="label-mono text-slate-500">{h as string}</p>
               <ul className="mt-2 space-y-1.5">{(items as string[]).map((x) => <li key={x} className="flex gap-2 text-slate-700"><span className="mt-2 size-1.5 shrink-0 rounded-full bg-teal" />{x}</li>)}</ul>

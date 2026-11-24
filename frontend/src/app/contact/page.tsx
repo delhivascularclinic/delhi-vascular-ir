@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Notice, PageHero } from "@/components/site/Blocks";
 import { ConsultationForm } from "@/components/site/Forms";
 import { CLINIC } from "@/data";
+import { DetailValue } from "@/components/site/ClinicContact";
 
 export const metadata: Metadata = { title: "Contact & Book a Consultation", description: "Book a consultation with Dr. Girendra Shankar at Delhi Vascular IR Clinic, Moti Nagar, New Delhi." };
 
@@ -14,9 +15,11 @@ export default function ContactPage() {
           <div className="space-y-6">
             <div className="rounded-2xl bg-deep p-7 text-white" data-testid="contact-details">
               <p className="label-mono text-cyan">Clinic details</p>
-              <ul className="mt-4 space-y-3 text-sm">{CLINIC.placeholders.map((p) => <li key={p.label}><span className="block text-slate-400">{p.label}</span>{p.value}</li>)}</ul>
+              <ul className="mt-4 space-y-3 text-sm">{CLINIC.placeholders.map((p) => <li key={p.label}><span className="block text-slate-400">{p.label}</span><DetailValue d={p} testid={`contact-${p.label.toLowerCase().replace(/\s+/g, "-")}`} /></li>)}</ul>
             </div>
-            <div className="grid aspect-video place-items-center rounded-2xl border-2 border-dashed border-slate-300 bg-white text-sm text-slate-400" data-testid="contact-map-placeholder">[Google Maps location — to be embedded]</div>
+            <iframe title="Clinic location map" src={CLINIC.mapEmbed} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+              className="aspect-video w-full rounded-2xl border border-border bg-white" data-testid="contact-map" />
+            <a href={CLINIC.mapLink} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-[#008B85] hover:underline" data-testid="contact-directions-link">Get directions on Google Maps →</a>
             <Notice tone="warn">For emergencies such as stroke symptoms, sudden severe pain, heavy bleeding or breathlessness, call emergency services or go to the nearest emergency department.</Notice>
           </div>
           <div>

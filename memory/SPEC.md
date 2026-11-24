@@ -27,4 +27,16 @@ Premium medical website for Dr. Girendra Shankar (MBBS, MD, FVIR, EBIR), Vascula
 No seed script. Test submissions may exist from smoke tests ("Test Patient", "Browser Test", referral "Pat One" with scan.pdf).
 
 ## Placeholders (do not invent)
-Phone, WhatsApp, email, exact address, maps, booking link, socials, timings, photo, biography details, academics.
+Timings, booking link, socials, photo, biography details, academics.
+
+## Clinic contact (real, supplied by user)
+Phone/WhatsApp +91 70658 00025 (tel:/wa.me links, floating WhatsApp button), delhivascularclinic@gmail.com, "Delhi Vascular IR Clinic, Shivaji Marg, Moti Nagar, New Delhi" (Google Maps embed on /contact). Stored in CLINIC in frontend/src/data/index.ts.
+
+## Email alerts (Emergent managed Resend)
+backend/lib/email.py — on every consultation/referral submission a BackgroundTask emails CLINIC_ALERT_EMAIL (delhivascularclinic@gmail.com) with a server-side template (no clinical summary/imaging in email; staff inbox link). Failures are logged and never break submission. Env: EMERGENT_EMAIL_KEY, EMAIL_FROM_NAME, EMAIL_REPLY_TO, CLINIC_ALERT_EMAIL, PUBLIC_SITE_URL.
+
+## Hindi patient mode
+POST /api/translate/{slug} with PatientContent {title, summary, patient, steps[6], indications, risks, alternatives} → TranslationOut {slug, lang:"hi", cached, content}. Gemini 3 Flash via EMERGENT_LLM_KEY; cached in Mongo `translations` by sha256(slug+content); 40 uncached req/hour/IP. Explorer patient mode has English/हिन्दी toggle.
+
+## Shareable links
+Explorer share button → /explorer/{slug}?step=N (native share sheet or clipboard); explorer opens paused at that step.

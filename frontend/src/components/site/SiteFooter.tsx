@@ -4,12 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CLINIC } from "@/data";
 import { NAV } from "./SiteHeader";
+import { DetailValue, WhatsAppButton } from "./ClinicContact";
 
 export default function SiteFooter() {
   const path = usePathname();
   if (path?.startsWith("/admin")) return null;
   return (
     <footer className="bg-navy text-slate-300" data-testid="site-footer">
+      <WhatsAppButton />
       <div className="mx-auto grid max-w-[1400px] gap-12 px-5 py-16 lg:grid-cols-[1.3fr_1fr_1fr] lg:px-8">
         <div>
           <p className="font-heading text-xl font-semibold text-white">{CLINIC.name}</p>
@@ -22,7 +24,7 @@ export default function SiteFooter() {
           {NAV.map((n) => <Link key={n.href} href={n.href} className="text-slate-400 transition-colors hover:text-cyan">{n.label}</Link>)}
         </nav>
         <div className="space-y-2 text-sm">
-          {CLINIC.placeholders.slice(0, 5).map((p) => <p key={p.label}><span className="text-slate-500">{p.label}: </span>{p.value}</p>)}
+          {CLINIC.placeholders.slice(0, 5).map((p) => <p key={p.label}><span className="text-slate-500">{p.label}: </span><DetailValue d={p} testid={`footer-${p.label.toLowerCase().replace(/\s+/g, "-")}`} /></p>)}
           <Link href="/admin" className="inline-block pt-3 text-xs text-slate-500 hover:text-cyan" data-testid="footer-admin-link">Staff login</Link>
         </div>
       </div>

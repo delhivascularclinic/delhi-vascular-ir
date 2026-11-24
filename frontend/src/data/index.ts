@@ -26,15 +26,21 @@ export const CLINIC = {
   location: "Moti Nagar, New Delhi",
   current: "Max Super Speciality Hospital, Shalimar Bagh",
   previous: ["Sri Balaji Action Medical Institute", "Action Cancer Hospital", "Medanta – The Medicity, Gurugram"],
+  phone: "+91 70658 00025",
+  email: "delhivascularclinic@gmail.com",
+  whatsapp: "https://wa.me/917065800025",
+  address: "Delhi Vascular IR Clinic, Shivaji Marg, Moti Nagar, New Delhi",
+  mapEmbed: "https://www.google.com/maps?q=Delhi+Vascular+IR+Clinic,+Shivaji+Marg,+Moti+Nagar,+New+Delhi&output=embed",
+  mapLink: "https://www.google.com/maps/search/?api=1&query=Delhi+Vascular+IR+Clinic+Shivaji+Marg+Moti+Nagar+New+Delhi",
   placeholders: [
-    { label: "Clinic phone", value: "[Clinic phone number — to be added]" },
-    { label: "WhatsApp", value: "[WhatsApp number — to be added]" },
-    { label: "Email", value: "[Email address — to be added]" },
-    { label: "Address", value: "[Exact clinic address], Moti Nagar, New Delhi" },
+    { label: "Clinic phone", value: "+91 70658 00025", href: "tel:+917065800025" },
+    { label: "WhatsApp", value: "+91 70658 00025", href: "https://wa.me/917065800025" },
+    { label: "Email", value: "delhivascularclinic@gmail.com", href: "mailto:delhivascularclinic@gmail.com" },
+    { label: "Address", value: "Delhi Vascular IR Clinic, Shivaji Marg, Moti Nagar, New Delhi", href: "https://www.google.com/maps/search/?api=1&query=Delhi+Vascular+IR+Clinic+Shivaji+Marg+Moti+Nagar+New+Delhi" },
     { label: "Clinic timings", value: "[Clinic timings — to be added]" },
     { label: "Appointment link", value: "[Online booking link — to be added]" },
     { label: "Social media", value: "[Social media links — to be added]" },
-  ],
+  ] as { label: string; value: string; href?: string }[],
 };
 
 export interface ServiceItem { name: string; slug?: string; note?: string }

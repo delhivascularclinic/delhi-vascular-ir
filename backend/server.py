@@ -65,9 +65,11 @@ async def get_status_checks():
 
 from routers.forms import router as forms_router  # noqa: E402
 from routers.admin import router as admin_router  # noqa: E402
+from routers.translate import router as translate_router  # noqa: E402
 
 api_router.include_router(forms_router)
 api_router.include_router(admin_router)
+api_router.include_router(translate_router)
 
 # Include the router in the main app
 app.include_router(api_router)

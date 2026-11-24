@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Notice, PageHero } from "@/components/site/Blocks";
 import { ReferralForm } from "@/components/site/Forms";
 import { CATEGORIES, CLINIC, PROCEDURES } from "@/data";
+import { DetailValue } from "@/components/site/ClinicContact";
 
 export const metadata: Metadata = { title: "Doctor Referral Portal", description: "Refer a patient, submit a case with imaging, or request a professional discussion with Dr. Girendra Shankar." };
 
@@ -32,7 +33,7 @@ export default function ReferralsPage() {
             </div>
             <div className="rounded-2xl bg-deep p-6 text-sm text-white">
               <p className="label-mono text-cyan">Professional contact</p>
-              <p className="mt-2">{CLINIC.placeholders[0].value}<br />{CLINIC.placeholders[2].value}</p>
+              <p className="mt-2"><DetailValue d={CLINIC.placeholders[0]} testid="referral-contact-phone" /><br /><DetailValue d={CLINIC.placeholders[2]} testid="referral-contact-email" /></p>
               <p className="mt-3 text-slate-400">Urgent referrals: please submit and also call the clinic.</p>
             </div>
           </div>

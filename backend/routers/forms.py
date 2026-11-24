@@ -3,10 +3,11 @@
 import os
 from pathlib import Path
 
-from fastapi import APIRouter, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, UploadFile
 from pydantic import ValidationError
 
 from lib.db import db
+from lib.email import notify_consultation, notify_referral
 from models.forms import Attachment, Consultation, ConsultationCreate, Referral, ReferralCreate, SubmissionReceipt
 
 router = APIRouter()
@@ -27,14 +28,16 @@ def _reference(prefix: str, id_: str) -> str:
 
 
 @router.post("/consultations", response_model=SubmissionReceipt, status_code=201)
-async def create_consultation(body: ConsultationCreate):
+async def create_consultation(body: ConsultationCreate, bg: BackgroundTasks):
     item = Consultation(**body.model_dump())
     await db.consultations.insert_one(item.model_dump())
-    return SubmissionReceipt(id=item.id, reference=_reference("CONS", item.id))
+    ref = _reference("CONS", item.id)
+    bg.add_task(notify_consultation, item.model_dump(), ref)
+    return SubmissionReceipt(id=item.id, reference=ref)
 
 
 @router.post("/referrals", response_model=SubmissionReceipt, status_code=201)
-async def create_referral(payload: str = Form(...), files: list[UploadFile] = File(default=[])):
+async def create_referral(bg: BackgroundTasks, payload: str = Form(...), files: list[UploadFile] = File(default=[])):
     try:
         body = ReferralCreate.model_validate_json(payload)
     except ValidationError as exc:
@@ -71,4 +74,6 @@ async def create_referral(payload: str = Form(...), files: list[UploadFile] = Fi
 
     item = Referral(**body.model_dump(), attachments=attachments)
     await db.referrals.insert_one(item.model_dump())
-    return SubmissionReceipt(id=item.id, reference=_reference("REF", item.id))
+    ref = _reference("REF", item.id)
+    bg.add_task(notify_referral, item.model_dump(), ref)
+    return SubmissionReceipt(id=item.id, reference=ref)
