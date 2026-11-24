@@ -1,0 +1,42 @@
+{
+  "iteration": 2,
+  "summary": "customer_case retest: Next.js static-export build fix verified. 3 new checks covering the acceptance_matrix (prod build output, static-file serving, live preview + contact submission), all passing. Re-ran full backend suite (8 passed) as a regression guard.",
+  "passed": 4,
+  "failed": 0,
+  "flaky": 0,
+  "blocked": 0,
+  "test_error": 0,
+  "retest_needed": false,
+  "bugs": [],
+  "action_items": [],
+  "checks": [
+    {
+      "criterion": "Production frontend build produces the directory the deploy pipeline copies (build/ or dist/)",
+      "name": "manual-build-verification (not a browser/backend artifact; recorded here per matrix item)",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "Copied /app/frontend (excluding node_modules/.next/build/out) to /tmp/fe2, symlinked node_modules, ran `NODE_ENV=production yarn build` -> exit 0, 'Exporting (2/2)' success. /tmp/fe2/build/ contains index.html, _next/ (static chunks), explorer/evar/index.html, contact/index.html, admin/index.html, services/hepatobiliary/index.html. Workspace cleaned up (/tmp/fe2 removed) after verification; did not touch running dev server's .next."
+    },
+    {
+      "criterion": "Exported static site works when served as plain files",
+      "name": "static-export-serves-pages",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Served /tmp/fe2/build via `python -m http.server 8899`; curl on /, /explorer/evar/, /contact/ all returned 200. Browser check loaded all three paths: hero-3d-canvas visible on /, procedure-explorer visible on /explorer/evar/, consult-form visible on /contact/; console_errors: [] (no stray errors even with no backend present)."
+    },
+    {
+      "criterion": "Live preview unaffected by the config change",
+      "name": "live-preview-contact-submission",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Against https://delhi-vascular-ir--7t3oh8d2.preview.emergentagent.com: home hero-3d-canvas visible, /explorer shows procedure-explorer, /contact form filled with name 'TEST_ Preview Check', phone +91-9999999999, consent checked -> consult-success shown with reference CONS-6F309C34 (matches /^CONS-[A-F0-9]{8}$/). Post-check cleanup: deleted the created row from Mongo `consultations` collection by its exact generated id (6f309c34-...), confirmed deleted_count=1; no other data touched."
+    },
+    {
+      "criterion": "Regression guard: existing backend test suite",
+      "name": "pytest full suite (test_tscheck_consultation_form.py, test_tscheck_referral_form.py, test_tscheck_admin_inbox.py)",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "cd /app/backend && python -m pytest -q -p no:cacheprovider -> '8 passed in 0.83s', no regressions from the build-script change."
+    }
+  ]
+}
