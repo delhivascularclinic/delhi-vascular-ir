@@ -32,7 +32,7 @@ export default function SiteFooter() {
         </nav>
         <div className="space-y-2 text-sm">
           {CLINIC.placeholders.slice(0, 6).map((p) => <p key={p.label}><span className="text-slate-500">{p.label}: </span><DetailValue d={p} testid={`footer-${p.label.toLowerCase().replace(/\s+/g, "-")}`} /></p>)}
-          <a href={CLINIC.reviewsLink} target="_blank" rel="noopener noreferrer" className="inline-block pt-2 text-sm text-slate-300 transition-colors hover:text-cyan" data-testid="footer-reviews-link">★ Google reviews →</a>
+          <a href={CLINIC.reviewsLink} target="_blank" rel="noopener noreferrer" className="inline-block pt-2 text-sm text-slate-300 transition-colors hover:text-cyan" data-testid="footer-reviews-link">★ Leave a Google review →</a>
           <br />
           <Link href="/admin" className="inline-block pt-3 text-xs text-slate-500 hover:text-cyan" data-testid="footer-admin-link">Staff login</Link>
         </div>

@@ -48,3 +48,4 @@ Explorer share button → /explorer/{slug}?step=N (native share sheet or clipboa
 - Homepage intro section shows an uploaded, illustrative procedure-suite photo (`CLINIC.procedureImage`, public asset) captioned 'Illustrative image'. It is AI-generated and intentionally NOT used as Dr. Shankar's portrait (About page placeholder remains).
 - Doctor portrait (public asset, `CLINIC.portrait`) on About page and homepage hero doctor card.
 - Clinic timings `CLINIC.hours`: Mon–Sat 6–9 PM, Sun 9 AM–12 PM (contact page table + details list + footer). Landmark: opposite DLF MidTown Plaza mall. Google reviews link `CLINIC.reviewsLink` (search "girendra shankar") on contact page + footer.
+- Google reviews link = direct "write a review" form for place_id ChIJ8wwK_nMDDTkRuj1jNtbEB18. Contact page shows a live open/closed badge (OpenStatus.tsx) computed from `CLINIC.schedule` in Asia/Kolkata time regardless of visitor timezone; refreshes every minute.

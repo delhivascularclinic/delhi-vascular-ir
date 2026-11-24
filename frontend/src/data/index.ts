@@ -36,7 +36,10 @@ export const CLINIC = {
   mapEmbed: "https://maps.google.com/maps?q=Delhi+Vascular+IR+Clinic%4028.662746,77.154222&ll=28.662746,77.154222&z=17&output=embed",
   mapLink: "https://maps.google.com/?cid=6847658182754647482",
   landmark: "Opposite DLF MidTown Plaza mall",
-  reviewsLink: "https://www.google.co.in/search?q=girendra+shankar",
+  reviewsLink: "https://search.google.com/local/writereview?placeid=ChIJ8wwK_nMDDTkRuj1jNtbEB18",
+  /** Opening hours in clinic local time (Asia/Kolkata), minutes from midnight; index 0 = Sunday. */
+  schedule: [[540, 720], [1080, 1260], [1080, 1260], [1080, 1260], [1080, 1260], [1080, 1260], [1080, 1260]] as [number, number][],
+  timeZone: "Asia/Kolkata",
   hours: [{ days: "Monday – Saturday", time: "6:00 PM – 9:00 PM" }, { days: "Sunday", time: "9:00 AM – 12:00 PM" }],
   placeholders: [
     { label: "Clinic phone", value: "+91 70658 00025", href: "tel:+917065800025" },
