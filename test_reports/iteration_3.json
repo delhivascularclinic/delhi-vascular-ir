@@ -1,0 +1,91 @@
+{
+  "iteration": 3,
+  "summary": "Post-refactor regression pass (ProcedureExplorer split, upload _save_upload/_check_ext, admin _decode_session, consultation email safety, translate _translate_content). 4 new backend test files + 2 new browser checks added for previously-uncovered criteria; 4 existing browser checks re-ran clean. All 15 backend tests pass (12 pre-existing + regressions, 3 new files added this iteration added 7 new test functions total across admin-session/upload-rollback/translate). 6 browser checks passed total this iteration (4 regression re-runs + 2 new). No bugs found.",
+  "passed": 11,
+  "failed": 0,
+  "flaky": 0,
+  "blocked": 0,
+  "test_error": 0,
+  "retest_needed": false,
+  "bugs": [],
+  "action_items": [],
+  "checks": [
+    {
+      "criterion": "Procedure Explorer still works after refactor (ProcedureList, ExplorerInfoPanel, useHindiContent split)",
+      "name": "explorer-full-controls",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Re-ran persisted check on /explorer: 47 select buttons rendered, selecting evar updates explorer-procedure-title, steps 1/3 change explorer-step-caption, zoom/rotate/labels/reset/compare toggles, doctor/patient mode tabs all work. No errors."
+    },
+    {
+      "criterion": "Switching procedures remounts 3D lesions/devices (sceneId keys) without console/WebGL errors",
+      "name": "explorer-scene-remount-multi-switch",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "New check: switched /explorer through evar -> fevar-concept -> aortoiliac-kissing-stents -> evar, canvas stayed visible after each switch; then on homepage clicked explorer-tab-clti-limb-salvage/evar/iliocaval-reconstruction/dvt-thrombectomy in sequence, canvas remained rendered. console_errors: []."
+    },
+    {
+      "criterion": "Hindi patient mode still works after extracting useHindiContent",
+      "name": "explorer-hindi-mode",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "New check: on /explorer with evar selected, patient mode + explorer-lang-hi shows Devanagari text in explorer-step-caption plus explorer-hindi-note; switching back to explorer-lang-en restores exact original English caption; doctor mode (even with hi selected) shows no Devanagari and hides explorer-hindi-note."
+    },
+    {
+      "criterion": "Hindi translate endpoint refactor (_translate_content) - cached hit, bad slug 404, malformed 422",
+      "name": "test_tscheck_translate_endpoint.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "POST /api/translate/evar with evar's exact English PatientContent (verified via matching sha256 cache key in Mongo translations collection) -> 200, cached=true, content.steps length 6. POST /api/translate/BAD_SLUG! -> 404. POST /api/translate/evar with {title:'x'} -> 422."
+    },
+    {
+      "criterion": "Referral upload validation and rollback (_save_upload/_check_ext) - oversize rejection + no residual files",
+      "name": "test_tscheck_referral_upload_rollback.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "POST /api/referrals with a small.pdf + a 26MB big.pdf -> 400 'tscheck-big.pdf exceeds 25 MB'; verified /app/backend/uploads directory listing unchanged before/after (both files, including the already-written small one, rolled back). Valid single .pdf -> 201 with reference REF-xxxxxxxx."
+    },
+    {
+      "criterion": "Referral upload .exe rejection (regression, pre-existing test)",
+      "name": "test_tscheck_referral_form.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "POST /api/referrals with payload + tscheck-malware.exe -> 400; admin file endpoint requires auth (401/404)."
+    },
+    {
+      "criterion": "Admin auth refactor (_decode_session) - missing vs invalid cookie distinction",
+      "name": "test_tscheck_admin_session_expired.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "GET /api/admin/consultations with no cookie -> 401 'Not authenticated'; with Cookie: dvir_admin=not-a-valid-jwt-token -> 401 'Session expired'."
+    },
+    {
+      "criterion": "Admin auth refactor - full login/inbox flow via UI (regression)",
+      "name": "admin-inbox-flow",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Re-ran persisted check: wrong password rejected with 'invalid email or password', correct credentials (admin@delhivascularir.com) log in, consultations tab shows a fixture row, referrals tab shows attachment link pattern /api/admin/files/, status update shows 'status updated', logout returns to login form. The 3 reported console 401s are the deliberate wrong-password/unauthenticated probes, not regressions."
+    },
+    {
+      "criterion": "Consultation submission + email safety refactor (_assert_safe_email) (regression)",
+      "name": "consult-form-submission",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Re-ran persisted check on /contact: submit without consent blocked (consult-success stays hidden), checking consent then submitting shows consult-success with reference matching /^CONS-[A-F0-9]{8}$/. Backend log shows no email safety ValueError, only the expected background-task email send log lines."
+    },
+    {
+      "criterion": "Consultation submission regression (homepage flagship explorer tabs still functional)",
+      "name": "home-explorer-flagship-tabs",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Re-ran persisted check: flagship tabs visible, canvas mounts, title shows CLTI initially, clicking evar/aneurysm-coiling tabs updates explorer-procedure-title correctly."
+    },
+    {
+      "criterion": "Live preview ingress path sanity (ingress contract)",
+      "name": "live-preview-contact-submission",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Against https://delhi-vascular-ir--7t3oh8d2.preview.emergentagent.com: home, /explorer, and /contact form submission all worked; got reference CONS-2157FF9A. Row deleted from Mongo consultations by its exact id (2157ff9a-...) after the check, confirmed deleted_count=1."
+    }
+  ]
+}

@@ -35,6 +35,21 @@ def _rate(ip: str) -> None:
     _hits[ip] = recent
 
 
+async def _translate_content(chat: LlmChat, src: dict, expected_steps: int) -> PatientContent:
+    """Stream the model reply and parse it into PatientContent; raises on any malformed output."""
+    text = ""
+    async for ev in chat.stream_message(UserMessage(text=json.dumps(src, ensure_ascii=False))):
+        if isinstance(ev, TextDelta):
+            text += ev.content
+        elif isinstance(ev, StreamDone):
+            break
+    m = re.search(r"\{.*\}", text, re.S)
+    out = PatientContent.model_validate_json(m.group(0) if m else text)
+    if len(out.steps) != expected_steps:
+        raise ValueError("step count mismatch")
+    return out
+
+
 @router.post("/translate/{slug}", response_model=TranslationOut)
 async def translate(slug: str, body: PatientContent, request: Request):
     if not re.fullmatch(r"[a-z0-9-]{2,60}", slug):
@@ -48,17 +63,8 @@ async def translate(slug: str, body: PatientContent, request: Request):
 
     chat = LlmChat(api_key=os.environ["EMERGENT_LLM_KEY"], session_id=f"tr-{uuid.uuid4()}", system_message=SYSTEM) \
         .with_model("gemini", "gemini-3-flash-preview")
-    text = ""
     try:
-        async for ev in chat.stream_message(UserMessage(text=json.dumps(src, ensure_ascii=False))):
-            if isinstance(ev, TextDelta):
-                text += ev.content
-            elif isinstance(ev, StreamDone):
-                break
-        m = re.search(r"\{.*\}", text, re.S)
-        out = PatientContent.model_validate_json(m.group(0) if m else text)
-        if len(out.steps) != len(body.steps):
-            raise ValueError("step count mismatch")
+        out = await _translate_content(chat, src, expected_steps=len(body.steps))
     except Exception as e:  # noqa: BLE001
         logger.error(f"Translation failed for {slug}: {e}")
         raise HTTPException(status_code=502, detail="Hindi translation is unavailable right now. Please try again.")

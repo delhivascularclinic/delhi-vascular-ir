@@ -420,7 +420,7 @@ function FilterDevice({ d, ctx }: { d: DeviceDef; ctx: Ctx }) {
     const pos = c ? c.getPointAt(Math.min(0.98, t)) : ctx.lpts[li];
     const tan = c ? c.getTangentAt(Math.min(0.98, t)) : new THREE.Vector3(0, 1, 0);
     return { pos, quat: new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), tan) };
-  }, [ctx, l, li, small]);
+  }, [ctx, d, l, li, small]);
   const rv = (d.seg ? devRadius(d, ctx) : ctx.lr[li]) * (small ? 0.9 : 0.95);
   const len = small ? rv * 2.2 : rv * 3;
   const group = useRef<THREE.Group>(null);
@@ -731,6 +731,8 @@ function Ticker({ playing, duration, progressRef, onDone }: { playing: boolean; 
 }
 
 export interface ProcedureCanvasProps {
+  /** Stable procedure id; prefixes per-procedure keys so lesions/devices remount when the procedure changes. */
+  sceneId: string;
   cfg: SceneConfig;
   phase: number;
   progressRef: MutableRefObject<number>;
@@ -746,7 +748,7 @@ export interface ProcedureCanvasProps {
 }
 
 function SceneContent(props: ProcedureCanvasProps) {
-  const { cfg, phase, compare, labels, selected, onSelect, progressRef } = props;
+  const { cfg, phase, compare, labels, selected, onSelect, progressRef, sceneId: sid } = props;
   const stRef = useRef({ phase, compare });
   stRef.current = { phase, compare };
   const tpl = TEMPLATES[cfg.template];
@@ -776,8 +778,7 @@ function SceneContent(props: ProcedureCanvasProps) {
 
   const focusKinds = cfg.focus;
   const vessels = [...ctx.vmap.values()];
-  const flowItems = useMemo(() => vessels.filter((v) => !v.noFlow && v.kind !== "airway").map((def) => ({ def, curve: ctx.curves.get(def.id)! })),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  const flowItems = useMemo(() => [...ctx.vmap.values()].filter((v) => !v.noFlow && v.kind !== "airway").map((def) => ({ def, curve: ctx.curves.get(def.id)! })),
     [ctx]);
   const sev = useMemo(() => {
     const m = new Map<string, number>();
@@ -809,7 +810,7 @@ function SceneContent(props: ProcedureCanvasProps) {
     if (refluxV.has(id) && e.phase === 5) f = 0;
     return f;
   };
-  const onlyVis = (def: VesselDef) => () => {
+  const onlyVis = () => {
     const e = ctx.eff();
     if (e.phase >= 1 && e.phase <= 4) return growth(e);
     return e.phase === 5 ? 0.35 : 0;
@@ -833,19 +834,19 @@ function SceneContent(props: ProcedureCanvasProps) {
       {vessels.map((v) => (
         <VesselMesh key={v.id} def={v} curve={ctx.curves.get(v.id)!}
           opacity={focusKinds && !focusKinds.includes(v.kind) ? 0.16 : v.kind === "cord" ? 0.35 : 0.5}
-          selected={selected === v.id} onSelect={onSelect} visibleFn={v.only ? onlyVis(v) : undefined} />
+          selected={selected === v.id} onSelect={onSelect} visibleFn={v.only ? onlyVis : undefined} />
       ))}
       {organs.map((o) => <OrganMesh key={o.id} o={o} selected={selected === o.id} onSelect={onSelect} />)}
 
       {cfg.lesions.map((l, i) =>
         ["stenosis", "occlusion", "thrombus", "compression", "stricture", "reflux"].includes(l.type)
-          ? <TubeLesion key={i} l={l} i={i} ctx={ctx} />
-          : <BlobLesion key={i} l={l} i={i} ctx={ctx} devices={cfg.devices} />,
+          ? <TubeLesion key={`${sid}-lesion-${i}`} l={l} i={i} ctx={ctx} />
+          : <BlobLesion key={`${sid}-lesion-${i}`} l={l} i={i} ctx={ctx} devices={cfg.devices} />,
       )}
-      {ctx.routes.map((r, i) => <RouteWire key={i} curve={r} needle={cfg.routes[i].needle} ctx={ctx}
+      {ctx.routes.map((r, i) => <RouteWire key={`${sid}-route-${i}`} curve={r} needle={cfg.routes[i].needle} ctx={ctx}
         hideCatheter={cfg.devices.some((d) => d.type === "drain" && (d.route ?? 0) === i)} />)}
       <TargetMarkers ctx={ctx} />
-      {cfg.devices.map((d, i) => <Device key={i} d={d} ctx={ctx} />)}
+      {cfg.devices.map((d, i) => <Device key={`${sid}-device-${d.type}-${i}`} d={d} ctx={ctx} />)}
       <FlowParticles items={flowItems} factor={factor} speed={props.reduced ? 0.4 : 1} />
 
       {labels && vessels.filter((v) => v.label !== false && !v.only).map((v) => (
@@ -861,7 +862,7 @@ function SceneContent(props: ProcedureCanvasProps) {
         if (o) return <Tag position={o.pos} text={o.name} />;
         return null;
       })()}
-      {lbl === 1 && cfg.lesions.map((l, i) => l.label ? <Tag key={`l${i}`} tone="alert" position={ctx.lpts[i].clone().add(new THREE.Vector3(0.25, 0.22, 0.1))} text={l.label} /> : null)}
+      {lbl === 1 && cfg.lesions.map((l, i) => l.label ? <Tag key={`${sid}-lesion-tag-${i}`} tone="alert" position={ctx.lpts[i].clone().add(new THREE.Vector3(0.25, 0.22, 0.1))} text={l.label} /> : null)}
 
       <Rig tpl={tpl} focus={ctx.lpts[0] ?? vec(tpl.target)} ctx={ctx} apiRef={props.apiRef} reduced={props.reduced} />
       <Ticker playing={props.playing} duration={props.reduced ? 3.5 : 5.5} progressRef={progressRef} onDone={props.onStepDone} />

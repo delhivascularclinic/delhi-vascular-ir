@@ -27,6 +27,31 @@ def _reference(prefix: str, id_: str) -> str:
     return f"{prefix}-{id_[:8].upper()}"
 
 
+def _check_ext(f: UploadFile) -> None:
+    ext = Path(f.filename or "").suffix.lower()
+    if ext not in ALLOWED_EXT:
+        raise HTTPException(status_code=400, detail=f"File type {ext or '(none)'} not allowed")
+
+
+async def _save_upload(f: UploadFile) -> Attachment:
+    """Stream one upload to disk under an opaque id (never the user's filename).
+    Removes its own partial file if it exceeds the size limit."""
+    att = Attachment(filename=Path(f.filename or "file").name[:150],
+                     content_type=f.content_type or "application/octet-stream", size=0)
+    dest = upload_dir() / att.id
+    try:
+        with dest.open("wb") as out:
+            while chunk := await f.read(1024 * 1024):
+                att.size += len(chunk)
+                if att.size > MAX_BYTES:
+                    raise HTTPException(status_code=400, detail=f"{att.filename} exceeds 25 MB")
+                out.write(chunk)
+    except BaseException:
+        dest.unlink(missing_ok=True)
+        raise
+    return att
+
+
 @router.post("/consultations", response_model=SubmissionReceipt, status_code=201)
 async def create_consultation(body: ConsultationCreate, bg: BackgroundTasks):
     item = Consultation(**body.model_dump())
@@ -46,30 +71,15 @@ async def create_referral(bg: BackgroundTasks, payload: str = Form(...), files: 
     if len(files) > MAX_FILES:
         raise HTTPException(status_code=400, detail=f"Maximum {MAX_FILES} files per referral")
 
+    for f in files:  # validate every file type before writing anything
+        _check_ext(f)
     attachments: list[Attachment] = []
-    written: list[Path] = []
     try:
         for f in files:
-            ext = Path(f.filename or "").suffix.lower()
-            if ext not in ALLOWED_EXT:
-                raise HTTPException(status_code=400, detail=f"File type {ext or '(none)'} not allowed")
-            att = Attachment(filename=Path(f.filename or "file").name[:150],
-                             content_type=f.content_type or "application/octet-stream", size=0)
-            dest = upload_dir() / att.id  # stored by opaque id, never by user filename
-            size = 0
-            with dest.open("wb") as out:
-                while chunk := await f.read(1024 * 1024):
-                    size += len(chunk)
-                    if size > MAX_BYTES:
-                        raise HTTPException(status_code=400, detail=f"{att.filename} exceeds 25 MB")
-                    out.write(chunk)
-            written.append(dest)
-            att.size = size
-            attachments.append(att)
+            attachments.append(await _save_upload(f))
     except HTTPException:
-        for p in written:
-            p.unlink(missing_ok=True)
-        (upload_dir() / (attachments[-1].id if attachments else "_")).unlink(missing_ok=True)
+        for a in attachments:  # roll back files already saved for this referral
+            (upload_dir() / a.id).unlink(missing_ok=True)
         raise
 
     item = Referral(**body.model_dump(), attachments=attachments)

@@ -47,14 +47,18 @@ def clear_session(response: Response) -> None:
     response.delete_cookie(COOKIE, path="/")
 
 
+def _decode_session(token: str) -> dict:
+    try:
+        return jwt.decode(token, _secret(), algorithms=[ALGO])
+    except jwt.PyJWTError:
+        raise HTTPException(status_code=401, detail="Session expired")
+
+
 def require_admin(request: Request) -> str:
     token = request.cookies.get(COOKIE)
     if not token:
         raise HTTPException(status_code=401, detail="Not authenticated")
-    try:
-        data = jwt.decode(token, _secret(), algorithms=[ALGO])
-    except jwt.PyJWTError:
-        raise HTTPException(status_code=401, detail="Session expired")
+    data = _decode_session(token)
     if data.get("role") != "admin":
         raise HTTPException(status_code=403, detail="Forbidden")
     return data["sub"]
