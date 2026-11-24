@@ -40,3 +40,8 @@ POST /api/translate/{slug} with PatientContent {title, summary, patient, steps[6
 
 ## Shareable links
 Explorer share button → /explorer/{slug}?step=N (native share sheet or clipboard); explorer opens paused at that step.
+
+## Brand & logo
+- Palette derived from the clinic logo: crimson `#a00000` (Tailwind token `teal` — primary buttons, accents on light), light crimson `#f0646a` (token `cyan` — accents on dark), logo navy `#1f3a55` (`deep`), dark navy `#0c1a2a`/`#132a40` (`navy`/`navy-2`), silver `#b8c0c8` (`silver`). Token names kept for compatibility.
+- Logo is a public uploaded asset, referenced as `CLINIC.logo` in `frontend/src/data/index.ts`; used in header (logo only on mobile), footer lockup, admin inbox header, favicon/apple icon and OpenGraph image.
+- 3D scenes: device/glow accents silver, lights crimson; anatomy colours unchanged.

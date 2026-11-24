@@ -26,7 +26,7 @@ export default function ReferralsPage() {
               <div className="mt-4 space-y-3">
                 {CATEGORIES.map((c) => (
                   <div key={c.id}><p className="label-mono text-slate-500">{c.title}</p>
-                    <p className="mt-1 text-sm">{PROCEDURES.filter((p) => p.category === c.id).map((p, i, a) => <span key={p.slug}><Link href={`/explorer/${p.slug}`} className="text-[#008B85] hover:underline">{p.title}</Link>{i < a.length - 1 ? " · " : ""}</span>)}</p>
+                    <p className="mt-1 text-sm">{PROCEDURES.filter((p) => p.category === c.id).map((p, i, a) => <span key={p.slug}><Link href={`/explorer/${p.slug}`} className="text-[#a00000] hover:underline">{p.title}</Link>{i < a.length - 1 ? " · " : ""}</span>)}</p>
                   </div>
                 ))}
               </div>

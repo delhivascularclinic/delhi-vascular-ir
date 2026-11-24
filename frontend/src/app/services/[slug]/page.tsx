@@ -31,7 +31,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                   <li key={it.name} className="rounded-xl border border-border bg-white p-5" data-testid="service-item">
                     <p className="font-medium text-slate-900">{it.name}</p>
                     {it.note && <p className="mt-1 text-xs text-slate-500">{it.note}</p>}
-                    {it.slug && <Link href={`/explorer/${it.slug}`} className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-[#008B85] hover:underline" data-testid={`service-3d-link-${it.slug}`}>View in 3D <ArrowUpRight className="size-4" /></Link>}
+                    {it.slug && <Link href={`/explorer/${it.slug}`} className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-[#a00000] hover:underline" data-testid={`service-3d-link-${it.slug}`}>View in 3D <ArrowUpRight className="size-4" /></Link>}
                   </li>
                 ))}
               </ul>

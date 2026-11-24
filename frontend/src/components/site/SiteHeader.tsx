@@ -7,6 +7,7 @@ import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { CLINIC } from "@/data";
 
 export const NAV = [
   { href: "/", label: "Home" },
@@ -40,13 +41,12 @@ export default function SiteHeader() {
 
   return (
     <header className={cn("fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300",
-      scrolled ? "border-[#1E3A5F]/60 bg-navy/90 backdrop-blur-xl" : "border-transparent bg-gradient-to-b from-navy/80 to-transparent")} data-testid="site-header">
+      scrolled ? "border-[#2a4866]/60 bg-navy/90 backdrop-blur-xl" : "border-transparent bg-gradient-to-b from-navy/80 to-transparent")} data-testid="site-header">
       <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-6 px-5 lg:px-8">
         <Link href="/" className="group flex items-center gap-3" data-testid="nav-brand-link">
-          <span className="relative grid size-9 place-items-center rounded-lg border border-cyan/40 bg-deep">
-            <svg viewBox="0 0 24 24" className="size-5 text-cyan" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 2v7m0 0-5 6m5-6 5 6M7 15l-2 7m2-7 3 7m7-7-3 7m3-7 2 7" strokeLinecap="round" /></svg>
-          </span>
-          <span className="whitespace-nowrap leading-tight">
+          <img src={CLINIC.logo} alt="Delhi Vascular IR Clinic logo" width={44} height={44}
+            className="size-11 rounded-md shadow-lg shadow-black/30 ring-1 ring-white/15 transition-transform duration-300 group-hover:scale-105" data-testid="nav-brand-logo" />
+          <span className="hidden whitespace-nowrap leading-tight sm:block">
             <span className="block font-heading text-[15px] font-semibold text-white">Delhi Vascular IR Clinic</span>
             <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-slate-400">Dr. Girendra Shankar · FVIR, EBIR</span>
           </span>
@@ -61,12 +61,12 @@ export default function SiteHeader() {
         </nav>
         <div className="ml-auto flex items-center gap-2 2xl:ml-2">
           <Link href="/referrals#refer" className={cn(buttonVariants({ variant: "outline", size: "sm" }), "hidden border-cyan/40 bg-transparent text-cyan hover:bg-cyan/10 hover:text-cyan sm:inline-flex")} data-testid="nav-refer-patient-btn">Refer a Patient</Link>
-          <Link href="/contact#book" className={cn(buttonVariants({ size: "sm" }), "bg-teal text-navy hover:bg-cyan")} data-testid="nav-book-consult-btn">Book Consultation</Link>
+          <Link href="/contact#book" className={cn(buttonVariants({ size: "sm" }), "bg-teal text-white hover:bg-[#7d0000]")} data-testid="nav-book-consult-btn">Book Consultation</Link>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger className="grid size-9 place-items-center rounded-md border border-white/15 text-white hover:bg-white/10" aria-label="Open menu" data-testid="nav-menu-button">
               <Menu className="size-5" />
             </SheetTrigger>
-            <SheetContent side="right" className="w-[320px] border-[#1E3A5F] bg-navy text-white">
+            <SheetContent side="right" className="w-[320px] border-[#2a4866] bg-navy text-white">
               <SheetTitle className="px-5 pt-5 font-heading text-white">Navigate</SheetTitle>
               <nav className="flex flex-col gap-0.5 overflow-y-auto px-3 pb-6" aria-label="All pages">
                 {NAV.map((n, i) => (

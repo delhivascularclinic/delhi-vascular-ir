@@ -19,7 +19,7 @@ export default function ContactPage() {
             </div>
             <iframe title="Clinic location map" src={CLINIC.mapEmbed} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
               className="aspect-video w-full rounded-2xl border border-border bg-white" data-testid="contact-map" />
-            <a href={CLINIC.mapLink} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-[#008B85] hover:underline" data-testid="contact-directions-link">Get directions on Google Maps →</a>
+            <a href={CLINIC.mapLink} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-[#a00000] hover:underline" data-testid="contact-directions-link">Get directions on Google Maps →</a>
             <Notice tone="warn">For emergencies such as stroke symptoms, sudden severe pain, heavy bleeding or breathlessness, call emergency services or go to the nearest emergency department.</Notice>
           </div>
           <div>

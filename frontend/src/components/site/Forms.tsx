@@ -37,7 +37,7 @@ export function Field({ label, id, children, hint }: { label: string; id: string
 
 function Done({ reference, onReset, what, testid }: { reference: string; onReset: () => void; what: string; testid: string }) {
   return (
-    <div className="rounded-2xl border border-teal/40 bg-[#E6FFFA] p-8 text-[#0D5E58]" data-testid={testid}>
+    <div className="rounded-2xl border border-teal/40 bg-[#fbeaea] p-8 text-[#7d0000]" data-testid={testid}>
       <CheckCircle2 className="size-8" />
       <p className="mt-3 font-heading text-xl font-semibold">{what} received</p>
       <p className="mt-1 text-sm">Reference: <span className="font-mono font-semibold" data-testid={`${testid}-reference`}>{reference}</span>. The clinic team will contact you. For emergencies, contact emergency services.</p>
@@ -82,10 +82,10 @@ export function ConsultationForm() {
       <div className="sm:col-span-2"><Field label="Brief description (optional)" id="c-msg" hint="Please avoid sharing detailed medical records here; bring reports to your appointment.">
         <Textarea id="c-msg" rows={4} value={f.message} onChange={(e) => set("message", e.target.value)} data-testid="consult-message-input" /></Field></div>
       <label className="flex items-start gap-3 text-sm text-slate-600 sm:col-span-2">
-        <input type="checkbox" className="mt-1 size-4 accent-[#00B8B0]" checked={f.consent} onChange={(e) => set("consent", e.target.checked)} required data-testid="consult-consent-checkbox" />
+        <input type="checkbox" className="mt-1 size-4 accent-[#B3121B]" checked={f.consent} onChange={(e) => set("consent", e.target.checked)} required data-testid="consult-consent-checkbox" />
         I consent to the clinic storing these details to contact me about my request. I understand this form is not for emergencies.
       </label>
-      <Button type="submit" disabled={!mounted || m.isPending} className="h-11 bg-teal text-navy hover:bg-cyan sm:col-span-2" data-testid="consult-submit-btn">{m.isPending ? "Sending…" : "Request consultation"}</Button>
+      <Button type="submit" disabled={!mounted || m.isPending} className="h-11 bg-teal text-white hover:bg-[#7d0000] sm:col-span-2" data-testid="consult-submit-btn">{m.isPending ? "Sending…" : "Request consultation"}</Button>
     </form>
   );
 }
@@ -155,7 +155,7 @@ export function ReferralForm() {
         </div>
       </fieldset>
       <label className="flex items-start gap-3 text-sm text-slate-600">
-        <input type="checkbox" className="mt-1 size-4 accent-[#00B8B0]" checked={f.consent} onChange={(e) => set("consent", e.target.checked)} required data-testid="referral-consent-checkbox" />
+        <input type="checkbox" className="mt-1 size-4 accent-[#B3121B]" checked={f.consent} onChange={(e) => set("consent", e.target.checked)} required data-testid="referral-consent-checkbox" />
         I confirm the patient has consented to sharing this information for referral and specialist review.
       </label>
       <Button type="submit" disabled={!mounted || m.isPending} className={cn("h-11 w-full bg-deep text-white hover:bg-navy")} data-testid="referral-submit-btn">{m.isPending ? "Uploading securely…" : "Submit referral"}</Button>

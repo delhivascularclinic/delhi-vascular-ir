@@ -20,7 +20,7 @@ export function PageHero({ kicker, title, intro, children }: { kicker: string; t
 
 export function Notice({ children, tone = "info" }: { children: React.ReactNode; tone?: "info" | "warn" }) {
   return (
-    <div className={cn("rounded-xl border-l-4 px-5 py-4 text-sm leading-relaxed", tone === "warn" ? "border-amber-500 bg-amber-50 text-amber-950" : "border-teal bg-[#E6FFFA] text-[#0D5E58]")} data-testid="notice">
+    <div className={cn("rounded-xl border-l-4 px-5 py-4 text-sm leading-relaxed", tone === "warn" ? "border-amber-500 bg-amber-50 text-amber-950" : "border-teal bg-[#fbeaea] text-[#7d0000]")} data-testid="notice">
       {children}
     </div>
   );
@@ -35,7 +35,7 @@ export function CtaBand() {
           <h2 className="mt-3 max-w-xl text-3xl font-semibold">Every treatment decision starts with an individual assessment.</h2>
         </div>
         <div className="flex flex-wrap gap-3">
-          <Link href="/contact#book" className={cn(buttonVariants({ size: "lg" }), "bg-teal text-navy hover:bg-cyan")} data-testid="cta-book-btn">Book a Consultation</Link>
+          <Link href="/contact#book" className={cn(buttonVariants({ size: "lg" }), "bg-teal text-white hover:bg-[#7d0000]")} data-testid="cta-book-btn">Book a Consultation</Link>
           <Link href="/referrals#refer" className={cn(buttonVariants({ size: "lg", variant: "outline" }), "border-cyan/50 bg-transparent text-cyan hover:bg-cyan/10")} data-testid="cta-refer-btn">Refer a Patient</Link>
         </div>
       </div>

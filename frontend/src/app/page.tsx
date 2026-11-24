@@ -41,7 +41,7 @@ export default function HomePage() {
   return (
     <>
       <section ref={heroRef} className="relative min-h-[100svh] overflow-hidden bg-navy text-white" data-testid="home-hero">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(0,184,176,0.16),transparent_65%)]" aria-hidden />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(160,0,0,0.16),transparent_65%)]" aria-hidden />
         <div className="grid-fade absolute inset-0 opacity-40" aria-hidden />
         <div data-hero-canvas className="absolute inset-0">
           {gl === "ok" && <HeroScene reduced={reduced} offsetX={wide ? 2.3 : 0} active={heroVisible} />}
@@ -52,7 +52,7 @@ export default function HomePage() {
             <h1 className="mt-5 text-4xl font-semibold leading-[1.04] sm:text-6xl" data-testid="hero-headline">Advanced Vascular &amp; Image-Guided Interventions</h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-300">Precision-driven minimally invasive treatments for complex vascular, neurological, hepatobiliary and oncological conditions.</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/contact#book" className={cn(buttonVariants({ size: "lg" }), "bg-teal px-6 text-navy hover:bg-cyan")} data-testid="hero-book-btn">Book a Consultation</Link>
+              <Link href="/contact#book" className={cn(buttonVariants({ size: "lg" }), "bg-teal px-6 text-white hover:bg-[#7d0000]")} data-testid="hero-book-btn">Book a Consultation</Link>
               <Link href="/referrals#refer" className={cn(buttonVariants({ size: "lg", variant: "outline" }), "border-cyan/50 bg-transparent px-6 text-cyan hover:bg-cyan/10 hover:text-cyan")} data-testid="hero-refer-btn">Refer a Patient</Link>
               <Link href="#explorer" className={cn(buttonVariants({ size: "lg", variant: "ghost" }), "px-4 text-white hover:bg-white/10 hover:text-white")} data-testid="hero-explore-btn">Explore Procedures <ArrowRight className="ml-1 size-4" /></Link>
             </div>
@@ -105,7 +105,7 @@ export default function HomePage() {
                   <p className="label-mono mt-6 text-slate-500">{s.kicker}</p>
                   <h3 className="mt-2 text-xl font-semibold text-slate-900">{s.title}</h3>
                   <p className="mt-3 line-clamp-3 text-sm text-slate-600">{s.intro}</p>
-                  <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-[#008B85]">View service <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" /></span>
+                  <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-[#a00000]">View service <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" /></span>
                 </Link>
               );
             })}

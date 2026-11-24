@@ -30,12 +30,15 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-navy: #071525;
-  --color-navy-2: #0b1d33;
-  --color-deep: #102a43;
-  --color-teal: #00b8b0;
-  --color-cyan: #52d6e8;
-  --color-clinical: #f8fafc;
+  /* Brand palette derived from the clinic logo: crimson, logo navy, silver, white.
+     Token names (teal/cyan) are kept for compatibility: teal = brand crimson, cyan = light crimson accent for dark surfaces. */
+  --color-navy: #0c1a2a;
+  --color-navy-2: #132a40;
+  --color-deep: #1f3a55;
+  --color-teal: #a00000;
+  --color-cyan: #f0646a;
+  --color-silver: #b8c0c8;
+  --color-clinical: #f8f9fb;
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -56,45 +59,45 @@
 
 :root {
   --radius: 0.75rem;
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #f8f9fb;
+  --foreground: #0f1c2b;
   --card: #ffffff;
-  --card-foreground: #0f172a;
+  --card-foreground: #0f1c2b;
   --popover: #ffffff;
-  --popover-foreground: #0f172a;
-  --primary: #00b8b0;
-  --primary-foreground: #042624;
-  --secondary: #102a43;
+  --popover-foreground: #0f1c2b;
+  --primary: #a00000;
+  --primary-foreground: #ffffff;
+  --secondary: #1f3a55;
   --secondary-foreground: #f1f5f9;
-  --muted: #eef2f6;
+  --muted: #eef1f5;
   --muted-foreground: #475569;
-  --accent: #e6fffa;
-  --accent-foreground: #0d5e58;
+  --accent: #fbeaea;
+  --accent-foreground: #7d0000;
   --destructive: #dc2626;
-  --border: #e2e8f0;
-  --input: #cbd5e1;
-  --ring: #00b8b0;
+  --border: #e2e6ec;
+  --input: #c9d0d8;
+  --ring: #a00000;
 }
 
 .dark {
-  --background: #071525;
+  --background: #0c1a2a;
   --foreground: #f1f5f9;
-  --card: #0b1d33;
+  --card: #132a40;
   --card-foreground: #f1f5f9;
-  --popover: #0b1d33;
+  --popover: #132a40;
   --popover-foreground: #f1f5f9;
-  --primary: #00b8b0;
-  --primary-foreground: #042624;
-  --secondary: #102a43;
+  --primary: #a00000;
+  --primary-foreground: #ffffff;
+  --secondary: #1f3a55;
   --secondary-foreground: #f1f5f9;
-  --muted: #102a43;
-  --muted-foreground: #94a3b8;
-  --accent: #102a43;
-  --accent-foreground: #52d6e8;
+  --muted: #1f3a55;
+  --muted-foreground: #a3adb8;
+  --accent: #1f3a55;
+  --accent-foreground: #f0646a;
   --destructive: #f87171;
-  --border: #1e3a5f;
-  --input: #1e3a5f;
-  --ring: #52d6e8;
+  --border: #2a4866;
+  --input: #2a4866;
+  --ring: #f0646a;
 }
 
 @layer base {
@@ -111,6 +114,6 @@
 
 .label-mono { @apply font-mono text-[11px] font-medium uppercase tracking-[0.18em]; }
 .grid-fade {
-  background-image: linear-gradient(rgba(82, 214, 232, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(82, 214, 232, 0.06) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(201, 212, 223, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(201, 212, 223, 0.05) 1px, transparent 1px);
   background-size: 48px 48px;
 }

@@ -18,10 +18,10 @@ function Torso() {
   return (
     <group scale={[1, 1, 0.55]}>
       <mesh geometry={geo}>
-        <meshPhysicalMaterial color="#52D6E8" transparent opacity={0.055} roughness={0.2} depthWrite={false} side={THREE.DoubleSide} />
+        <meshPhysicalMaterial color="#C9D4DF" transparent opacity={0.055} roughness={0.2} depthWrite={false} side={THREE.DoubleSide} />
       </mesh>
       <mesh geometry={geo}>
-        <meshBasicMaterial color="#52D6E8" wireframe transparent opacity={0.04} />
+        <meshBasicMaterial color="#C9D4DF" wireframe transparent opacity={0.04} />
       </mesh>
     </group>
   );
@@ -62,9 +62,9 @@ export default function HeroScene({ reduced, offsetX = 0, active = true }: { red
       frameloop={active ? "always" : "never"} data-testid="hero-3d-canvas">
       <ambientLight intensity={0.4} />
       <directionalLight position={[4, 6, 6]} intensity={1.2} />
-      <pointLight position={[-4, 2, 4]} intensity={30} color="#52D6E8" />
-      <pointLight position={[3, -2, 3]} intensity={18} color="#00B8B0" />
-      <fog attach="fog" args={["#071525", 9, 18]} />
+      <pointLight position={[-4, 2, 4]} intensity={30} color="#C9D4DF" />
+      <pointLight position={[3, -2, 3]} intensity={18} color="#B3121B" />
+      <fog attach="fog" args={["#0c1a2a", 9, 18]} />
       <Body reduced={reduced} offsetX={offsetX} />
     </Canvas>
   );

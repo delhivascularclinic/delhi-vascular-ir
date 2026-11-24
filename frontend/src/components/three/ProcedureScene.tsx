@@ -62,7 +62,7 @@ export function VesselMesh({ def, curve, opacity, selected, onSelect, visibleFn,
       onPointerOver={onSelect ? () => (document.body.style.cursor = "pointer") : undefined}
       onPointerOut={onSelect ? () => (document.body.style.cursor = "") : undefined}
     >
-      <meshPhysicalMaterial ref={mat} color={color} emissive={selected ? "#52D6E8" : color} transparent opacity={opacity}
+      <meshPhysicalMaterial ref={mat} color={color} emissive={selected ? "#C9D4DF" : color} transparent opacity={opacity}
         roughness={0.32} metalness={0.05} clearcoat={0.7} clearcoatRoughness={0.25} depthWrite={false} side={THREE.DoubleSide} />
     </mesh>
   );
@@ -74,7 +74,7 @@ export function OrganMesh({ o, selected, onSelect }: { o: OrganDef; selected?: b
       onClick={onSelect ? (e: ThreeEvent<MouseEvent>) => { e.stopPropagation(); onSelect(o.id); } : undefined}>
       {o.shape === "box" ? <boxGeometry args={[1, 1, 1]} /> : o.shape === "capsule" ? <capsuleGeometry args={[1, 1.6, 6, 16]} /> : <sphereGeometry args={[1, 40, 28]} />}
       <meshPhysicalMaterial color={o.color} transparent opacity={selected ? Math.min(0.5, (o.opacity ?? 0.16) * 2.4) : o.opacity ?? 0.16}
-        roughness={0.55} depthWrite={false} emissive={selected ? "#52D6E8" : "#000000"} emissiveIntensity={0.25} />
+        roughness={0.55} depthWrite={false} emissive={selected ? "#C9D4DF" : "#000000"} emissiveIntensity={0.25} />
     </mesh>
   );
 }
@@ -136,7 +136,7 @@ export function FlowParticles({ items, factor, speed = 1 }: { items: FlowItem[];
 function Tag({ position, text, tone = "light" }: { position: THREE.Vector3 | [number, number, number]; text: string; tone?: "light" | "alert" }) {
   return (
     <Html position={position} center zIndexRange={[20, 0]} style={{ pointerEvents: "none" }}>
-      <div className={`whitespace-nowrap rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider backdrop-blur-md ${tone === "alert" ? "border-[#ff7a7a]/60 bg-[#3a0d14]/80 text-[#ffb4b4]" : "border-[#52D6E8]/40 bg-[#071525]/80 text-[#bff4fa]"}`}>
+      <div className={`whitespace-nowrap rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider backdrop-blur-md ${tone === "alert" ? "border-[#ff7a7a]/60 bg-[#3a0d14]/80 text-[#ffb4b4]" : "border-[#C9D4DF]/40 bg-[#0c1a2a]/80 text-[#f1f4f7]"}`}>
         {text}
       </div>
     </Html>
@@ -330,8 +330,8 @@ function TubeDevice({ d, ctx }: { d: DeviceDef; ctx: Ctx }) {
   if (isBalloon) {
     return (
       <mesh geometry={geo}>
-        <meshPhysicalMaterial color={d.type === "dcb" ? "#7ee0c9" : "#52D6E8"} transparent opacity={0.55} roughness={0.15} clearcoat={1}
-          emissive={d.type === "dcb" ? "#00B8B0" : "#1b6f7a"} emissiveIntensity={0.35} depthWrite={false} />
+        <meshPhysicalMaterial color={d.type === "dcb" ? "#7ee0c9" : "#C9D4DF"} transparent opacity={0.55} roughness={0.15} clearcoat={1}
+          emissive={d.type === "dcb" ? "#B3121B" : "#1b6f7a"} emissiveIntensity={0.35} depthWrite={false} />
       </mesh>
     );
   }
@@ -344,8 +344,8 @@ function TubeDevice({ d, ctx }: { d: DeviceDef; ctx: Ctx }) {
   }
   return (
     <mesh geometry={geo} position={offset}>
-      <meshStandardMaterial color={d.color ?? (d.type === "stent-retriever" ? "#9ff0ff" : "#d6dee6")} wireframe metalness={0.9} roughness={0.25}
-        emissive="#52D6E8" emissiveIntensity={d.type === "stent-retriever" ? 0.5 : 0.12} />
+      <meshStandardMaterial color={d.color ?? (d.type === "stent-retriever" ? "#e3e9ef" : "#d6dee6")} wireframe metalness={0.9} roughness={0.25}
+        emissive="#C9D4DF" emissiveIntensity={d.type === "stent-retriever" ? 0.5 : 0.12} />
     </mesh>
   );
 }
@@ -438,11 +438,11 @@ function FilterDevice({ d, ctx }: { d: DeviceDef; ctx: Ctx }) {
   return (
     <group position={pos} quaternion={quat}>
       <group ref={group}>
-        {legs.map((pts, k) => <Line key={k} points={pts} color={small ? "#9ff0ff" : "#e6edf3"} lineWidth={1.6} />)}
+        {legs.map((pts, k) => <Line key={k} points={pts} color={small ? "#e3e9ef" : "#e6edf3"} lineWidth={1.6} />)}
         {small && (
           <mesh position={[0, -len * 0.8, 0]}>
             <sphereGeometry args={[rv * 0.95, 14, 10, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2]} />
-            <meshStandardMaterial color="#9ff0ff" wireframe transparent opacity={0.6} />
+            <meshStandardMaterial color="#e3e9ef" wireframe transparent opacity={0.6} />
           </mesh>
         )}
       </group>
@@ -493,7 +493,7 @@ function ZoneDevice({ d, ctx }: { d: DeviceDef; ctx: Ctx }) {
   const margin = useRef<THREE.Mesh>(null);
   const mat = useRef<THREE.MeshStandardMaterial>(null);
   const kind = d.type;
-  const color = kind === "ablation-cryo" ? "#a8e6ff" : kind === "cement" ? "#f4f1e8" : kind === "kypho-balloon" ? "#52D6E8" : kind === "inject" ? "#7ee0ff" : "#ff8a3d";
+  const color = kind === "ablation-cryo" ? "#a8e6ff" : kind === "cement" ? "#f4f1e8" : kind === "kypho-balloon" ? "#C9D4DF" : kind === "inject" ? "#7ee0ff" : "#ff8a3d";
   const ablation = kind.startsWith("ablation");
   useFrame(({ clock }) => {
     const e = ctx.eff();
@@ -522,7 +522,7 @@ function ZoneDevice({ d, ctx }: { d: DeviceDef; ctx: Ctx }) {
       {ablation && (
         <mesh ref={margin} scale={size * 1.55}>
           <icosahedronGeometry args={[1, 2]} />
-          <meshBasicMaterial color="#52D6E8" wireframe transparent opacity={0.35} />
+          <meshBasicMaterial color="#C9D4DF" wireframe transparent opacity={0.35} />
         </mesh>
       )}
     </group>
@@ -551,7 +551,7 @@ function DrainDevice({ d, ctx }: { d: DeviceDef; ctx: Ctx }) {
   });
   return (
     <group ref={grp}>
-      <mesh geometry={geo}><meshStandardMaterial color="#f3f6f9" roughness={0.4} emissive="#52D6E8" emissiveIntensity={0.08} /></mesh>
+      <mesh geometry={geo}><meshStandardMaterial color="#f3f6f9" roughness={0.4} emissive="#C9D4DF" emissiveIntensity={0.08} /></mesh>
       <mesh ref={loopRef} geometry={loop}><meshStandardMaterial color="#f3f6f9" roughness={0.4} /></mesh>
     </group>
   );
@@ -572,7 +572,7 @@ function ThrombectomyDevice({ d, ctx }: { d: DeviceDef; ctx: Ctx }) {
   return (
     <mesh ref={mesh}>
       <icosahedronGeometry args={[rv * 0.85, 1]} />
-      <meshStandardMaterial color="#9ff0ff" wireframe emissive="#52D6E8" emissiveIntensity={0.6} />
+      <meshStandardMaterial color="#e3e9ef" wireframe emissive="#C9D4DF" emissiveIntensity={0.6} />
     </mesh>
   );
 }
@@ -636,10 +636,10 @@ function RouteWire({ curve, needle, ctx, hideCatheter }: { curve: THREE.CatmullR
   });
   return (
     <group>
-      <mesh geometry={wire}><meshStandardMaterial color={needle ? "#cfd8e3" : "#eef4f8"} metalness={0.95} roughness={0.2} emissive="#52D6E8" emissiveIntensity={0.15} /></mesh>
-      <mesh ref={cathRef} geometry={cath}><meshPhysicalMaterial color="#52D6E8" transparent opacity={0.7} roughness={0.2} emissive="#00B8B0" emissiveIntensity={0.3} /></mesh>
+      <mesh geometry={wire}><meshStandardMaterial color={needle ? "#cfd8e3" : "#eef4f8"} metalness={0.95} roughness={0.2} emissive="#C9D4DF" emissiveIntensity={0.15} /></mesh>
+      <mesh ref={cathRef} geometry={cath}><meshPhysicalMaterial color="#C9D4DF" transparent opacity={0.7} roughness={0.2} emissive="#B3121B" emissiveIntensity={0.3} /></mesh>
       <group ref={planRef}>
-        <Line ref={line as never} points={plan} color="#52D6E8" lineWidth={2.2} dashed dashSize={0.14} gapSize={0.09} />
+        <Line ref={line as never} points={plan} color="#C9D4DF" lineWidth={2.2} dashed dashSize={0.14} gapSize={0.09} />
       </group>
     </group>
   );
@@ -659,7 +659,7 @@ function TargetMarkers({ ctx }: { ctx: Ctx }) {
       {ctx.lpts.map((p, i) => (
         <mesh key={i} position={p}>
           <sphereGeometry args={[Math.max(0.12, (ctx.cfg.lesions[i].size ?? 0.15) * 1.3), 16, 12]} />
-          <meshBasicMaterial color="#52D6E8" wireframe transparent opacity={0.4} />
+          <meshBasicMaterial color="#C9D4DF" wireframe transparent opacity={0.4} />
         </mesh>
       ))}
     </group>
@@ -825,10 +825,10 @@ function SceneContent(props: ProcedureCanvasProps) {
   return (
     <>
       <ambientLight intensity={0.55} />
-      <hemisphereLight args={["#bfefff", "#0b1d33", 0.6]} />
+      <hemisphereLight args={["#e6ecf2", "#132a40", 0.6]} />
       <directionalLight position={[5, 8, 6]} intensity={1.5} />
-      <pointLight position={[-4, 2, 4]} intensity={18} color="#52D6E8" />
-      <pointLight position={[4, -3, 2]} intensity={10} color="#00B8B0" />
+      <pointLight position={[-4, 2, 4]} intensity={18} color="#C9D4DF" />
+      <pointLight position={[4, -3, 2]} intensity={10} color="#B3121B" />
 
       {vessels.map((v) => (
         <VesselMesh key={v.id} def={v} curve={ctx.curves.get(v.id)!}

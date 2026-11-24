@@ -12,6 +12,7 @@ import { Field, type ConsultationCreate, type ReferralCreate } from "@/component
 import { ApiError, apiGet, apiPatch, apiPost, errorMessage } from "@/lib/api";
 import { beginSession, endSession } from "@/lib/session";
 import { useMounted } from "@/lib/hooks";
+import { CLINIC } from "@/data";
 
 type Status = "new" | "reviewed" | "scheduled" | "closed";
 interface AdminMe { email: string }
@@ -32,12 +33,12 @@ function Login() {
   });
   return (
     <div className="grid min-h-screen place-items-center bg-navy px-5">
-      <form className="w-full max-w-sm space-y-5 rounded-2xl border border-[#1E3A5F] bg-navy-2 p-8 text-white" onSubmit={(e) => { e.preventDefault(); m.mutate(); }} data-testid="admin-login-form">
+      <form className="w-full max-w-sm space-y-5 rounded-2xl border border-[#2a4866] bg-navy-2 p-8 text-white" onSubmit={(e) => { e.preventDefault(); m.mutate(); }} data-testid="admin-login-form">
         <ShieldCheck className="size-8 text-cyan" />
         <div><h1 className="text-2xl font-semibold">Clinic staff sign-in</h1><p className="mt-1 text-sm text-slate-400">Consultation & referral inbox</p></div>
         <div className="[&_label]:text-slate-300"><Field label="Email" id="a-email"><Input id="a-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="bg-white text-slate-900" data-testid="admin-email-input" /></Field></div>
         <div className="[&_label]:text-slate-300"><Field label="Password" id="a-pw"><Input id="a-pw" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className="bg-white text-slate-900" data-testid="admin-password-input" /></Field></div>
-        <Button type="submit" disabled={!mounted || m.isPending} className="h-11 w-full bg-teal text-navy hover:bg-cyan" data-testid="admin-login-btn">{m.isPending ? "Signing in…" : "Sign in"}</Button>
+        <Button type="submit" disabled={!mounted || m.isPending} className="h-11 w-full bg-teal text-white hover:bg-[#7d0000]" data-testid="admin-login-btn">{m.isPending ? "Signing in…" : "Sign in"}</Button>
       </form>
     </div>
   );
@@ -65,7 +66,7 @@ function Inbox({ me }: { me: AdminMe }) {
   return (
     <div className="min-h-screen bg-clinical">
       <header className="flex items-center justify-between bg-navy px-6 py-4 text-white">
-        <p className="font-heading font-semibold">Delhi Vascular IR Clinic · Inbox</p>
+        <p className="flex items-center gap-3 font-heading font-semibold"><img src={CLINIC.logo} alt="" width={32} height={32} className="size-8 rounded" data-testid="admin-header-logo" />Delhi Vascular IR Clinic · Inbox</p>
         <div className="flex items-center gap-3 text-sm"><span className="text-slate-400" data-testid="admin-user-email">{me.email}</span>
           <Button size="sm" variant="outline" className="border-white/20 bg-transparent text-white hover:bg-white/10" onClick={() => endSession("/admin")} data-testid="admin-logout-btn"><LogOut className="mr-1 size-4" />Sign out</Button></div>
       </header>
@@ -93,7 +94,7 @@ function Inbox({ me }: { me: AdminMe }) {
                 {r.question && <p className="mt-1 text-slate-600">Question: {r.question}</p>}
                 {r.attachments.length > 0 && (
                   <div className="mt-3 flex flex-wrap gap-2">{r.attachments.map((a) => (
-                    <a key={a.id} href={`/api/admin/files/${a.id}`} className="inline-flex items-center gap-1 rounded-md border border-border px-2.5 py-1 text-xs text-[#008B85] hover:bg-slate-50" data-testid={`admin-attachment-${a.id}`}>
+                    <a key={a.id} href={`/api/admin/files/${a.id}`} className="inline-flex items-center gap-1 rounded-md border border-border px-2.5 py-1 text-xs text-[#a00000] hover:bg-slate-50" data-testid={`admin-attachment-${a.id}`}>
                       <Download className="size-3.5" />{a.filename} ({(a.size / 1024).toFixed(0)} KB)</a>))}
                   </div>
                 )}

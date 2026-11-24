@@ -113,7 +113,7 @@ export default function ProcedureExplorer({ initialSlug, slugs, compact = false 
   return (
     <div ref={wrap} className={cn("grid gap-4", !compact && "lg:grid-cols-[260px_1fr_380px]", compact && "xl:grid-cols-[1fr_380px]")} data-testid="procedure-explorer">
       {!compact && (
-        <aside className="max-h-[720px] overflow-y-auto rounded-2xl border border-[#1E3A5F] bg-navy-2 p-3" aria-label="Procedures" data-testid="explorer-procedure-list">
+        <aside className="max-h-[720px] overflow-y-auto rounded-2xl border border-[#2a4866] bg-navy-2 p-3" aria-label="Procedures" data-testid="explorer-procedure-list">
           {CATEGORIES.map((c) => {
             const items = list.filter((p) => p.category === c.id);
             if (!items.length) return null;
@@ -143,7 +143,7 @@ export default function ProcedureExplorer({ initialSlug, slugs, compact = false 
             ))}
           </div>
         )}
-        <div className="relative h-[460px] overflow-hidden rounded-2xl border border-[#1E3A5F] bg-[radial-gradient(circle_at_60%_30%,rgba(0,184,176,0.14),transparent_60%),linear-gradient(180deg,#071525,#0B1D33)] sm:h-[560px]">
+        <div className="relative h-[460px] overflow-hidden rounded-2xl border border-[#2a4866] bg-[radial-gradient(circle_at_60%_30%,rgba(160,0,0,0.14),transparent_60%),linear-gradient(180deg,#0c1a2a,#132a40)] sm:h-[560px]">
           <div className="grid-fade absolute inset-0 opacity-50" aria-hidden />
           {gl === "ok" && (
             <ProcedureCanvas cfg={proc.scene} phase={step} progressRef={progressRef} compare={compare} labels={labels} selected={selected}
@@ -182,7 +182,7 @@ export default function ProcedureExplorer({ initialSlug, slugs, compact = false 
             <div className="ml-auto flex rounded-lg border border-white/10 p-0.5 text-xs" role="group" aria-label="Compare anatomy">
               {(["normal", "disease"] as const).map((c) => (
                 <button key={c} type="button" onClick={() => { setCompare(compare === c ? "none" : c); setPlaying(false); }} aria-pressed={compare === c} data-testid={`explorer-compare-${c}`}
-                  className={cn("rounded-md px-3 py-1.5 transition-colors", compare === c ? "bg-teal text-navy" : "text-slate-300 hover:text-white")}>
+                  className={cn("rounded-md px-3 py-1.5 transition-colors", compare === c ? "bg-teal text-white" : "text-slate-300 hover:text-white")}>
                   {c === "normal" ? "Normal" : "Diseased"}
                 </button>
               ))}
@@ -193,7 +193,7 @@ export default function ProcedureExplorer({ initialSlug, slugs, compact = false 
           {PHASES.map((ph, i) => (
             <li key={ph}>
               <button type="button" onClick={() => goStep(i)} aria-current={i === step ? "step" : undefined} data-testid={`explorer-step-${i + 1}`}
-                className={cn("h-full w-full rounded-xl border px-3 py-2.5 text-left transition-[background-color,border-color]", i === step ? "border-cyan/60 bg-cyan/10" : "border-[#1E3A5F] bg-navy-2 hover:border-cyan/30")}>
+                className={cn("h-full w-full rounded-xl border px-3 py-2.5 text-left transition-[background-color,border-color]", i === step ? "border-cyan/60 bg-cyan/10" : "border-[#2a4866] bg-navy-2 hover:border-cyan/30")}>
                 <span className="font-mono text-[10px] text-cyan">0{i + 1}</span>
                 <span className="block text-xs leading-tight text-slate-200">{ph}</span>
               </button>
@@ -217,7 +217,7 @@ export default function ProcedureExplorer({ initialSlug, slugs, compact = false 
               <div className="flex rounded-lg border border-border p-0.5 text-xs" role="group" aria-label="Language">
                 {([["en", "English"], ["hi", "हिन्दी"]] as const).map(([l, name]) => (
                   <button key={l} type="button" onClick={() => setLang(l)} aria-pressed={lang === l} data-testid={`explorer-lang-${l}`}
-                    className={cn("rounded-md px-3 py-1.5 transition-colors", lang === l ? "bg-teal text-navy" : "text-slate-600 hover:text-slate-900")}>{name}</button>
+                    className={cn("rounded-md px-3 py-1.5 transition-colors", lang === l ? "bg-teal text-white" : "text-slate-600 hover:text-slate-900")}>{name}</button>
                 ))}
               </div>
               {lang === "hi" && hi.isFetching && <span className="text-xs text-slate-500" data-testid="explorer-hindi-loading">हिन्दी अनुवाद तैयार हो रहा है…</span>}
@@ -225,9 +225,9 @@ export default function ProcedureExplorer({ initialSlug, slugs, compact = false 
             </div>
           )}
           {hindi && <p className="text-xs text-slate-500" data-testid="explorer-hindi-note">AI-translated from English for easier reading — please confirm details with the doctor.</p>}
-          <div className="rounded-xl bg-[#E6FFFA] p-4" data-testid="explorer-step-caption">
-            <p className="label-mono text-[#137A73]">Step {step + 1}: {PHASES[step]}</p>
-            <p className="mt-1 text-[#0D5E58]">{mode === "patient" ? tx.steps[step] : proc.tech[step]}</p>
+          <div className="rounded-xl bg-[#fbeaea] p-4" data-testid="explorer-step-caption">
+            <p className="label-mono text-[#a00000]">Step {step + 1}: {PHASES[step]}</p>
+            <p className="mt-1 text-[#7d0000]">{mode === "patient" ? tx.steps[step] : proc.tech[step]}</p>
           </div>
           {mode === "patient" ? <p className="text-slate-700" data-testid="explorer-patient-text">{tx.patient}</p> : (
             <>
@@ -244,7 +244,7 @@ export default function ProcedureExplorer({ initialSlug, slugs, compact = false 
           <p className="rounded-lg border border-border bg-slate-50 p-3 text-xs text-slate-500">Schematic educational illustration — not a patient-specific plan. Suitability depends on individual clinical and imaging assessment; not every patient needs or benefits from this procedure.</p>
         </div>
         <div className="flex gap-2 border-t border-border p-4">
-          <Link href={`/contact?area=${encodeURIComponent(proc.title)}#book`} className={cn(buttonVariants(), "flex-1 bg-teal text-navy hover:bg-cyan")} data-testid="explorer-consult-link">Book consultation</Link>
+          <Link href={`/contact?area=${encodeURIComponent(proc.title)}#book`} className={cn(buttonVariants(), "flex-1 bg-teal text-white hover:bg-[#7d0000]")} data-testid="explorer-consult-link">Book consultation</Link>
           <Link href={`/referrals?category=${encodeURIComponent(proc.title)}#refer`} className={cn(buttonVariants({ variant: "outline" }), "flex-1")} data-testid="explorer-refer-link">Refer a patient</Link>
         </div>
       </section>
