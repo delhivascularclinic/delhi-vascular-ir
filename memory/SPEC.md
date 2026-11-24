@@ -30,7 +30,7 @@ No seed script. Test submissions may exist from smoke tests ("Test Patient", "Br
 Timings, booking link, socials, photo, biography details, academics.
 
 ## Clinic contact (real, supplied by user)
-Phone/WhatsApp +91 70658 00025 (tel:/wa.me links, floating WhatsApp button), delhivascularclinic@gmail.com, "Delhi Vascular IR Clinic, Shivaji Marg, Moti Nagar, New Delhi" (Google Maps embed on /contact). Stored in CLINIC in frontend/src/data/index.ts.
+Phone/WhatsApp +91 70658 00025 (tel:/wa.me links, floating WhatsApp button), delhivascularclinic@gmail.com, "Delhi Vascular IR Clinic, 1st Floor, 29, Shivaji Marg, Moti Nagar, Block C, Najafgarh Road Industrial Area, New Delhi, Delhi 110015" — Google Maps listing cid 6847658182754647482 (/g/11zyvz0k8w), pin 28.662746,77.154222 (embed on /contact, directions links open the listing). Stored in CLINIC in frontend/src/data/index.ts.
 
 ## Email alerts (Emergent managed Resend)
 backend/lib/email.py — on every consultation/referral submission a BackgroundTask emails CLINIC_ALERT_EMAIL (delhivascularclinic@gmail.com) with a server-side template (no clinical summary/imaging in email; staff inbox link). Failures are logged and never break submission. Env: EMERGENT_EMAIL_KEY, EMAIL_FROM_NAME, EMAIL_REPLY_TO, CLINIC_ALERT_EMAIL, PUBLIC_SITE_URL.
