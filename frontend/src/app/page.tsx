@@ -58,11 +58,14 @@ export default function HomePage() {
             </div>
           </motion.div>
           <motion.div initial={reduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5, duration: 1 }}
-            className="mt-14 inline-flex max-w-md flex-col gap-1 rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-md" data-testid="hero-doctor-card">
-            <p className="font-heading text-lg font-semibold">{CLINIC.doctor}</p>
-            <p className="font-mono text-xs tracking-wider text-cyan">{CLINIC.quals}</p>
-            <p className="text-sm text-slate-300">{CLINIC.role}</p>
-            <p className="text-sm text-slate-400">{CLINIC.name}, {CLINIC.location}</p>
+            className="mt-14 inline-flex max-w-md items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4 pr-6 backdrop-blur-md" data-testid="hero-doctor-card">
+            <img src={CLINIC.portrait} alt={CLINIC.doctor} width={80} height={80} className="size-20 shrink-0 rounded-xl object-cover object-[center_25%] ring-1 ring-white/15" data-testid="hero-doctor-portrait" />
+            <div className="flex flex-col gap-1">
+              <p className="font-heading text-lg font-semibold">{CLINIC.doctor}</p>
+              <p className="font-mono text-xs tracking-wider text-cyan">{CLINIC.quals}</p>
+              <p className="text-sm text-slate-300">{CLINIC.role}</p>
+              <p className="text-sm text-slate-400">{CLINIC.name}, {CLINIC.location}</p>
+            </div>
           </motion.div>
         </div>
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-clinical" aria-hidden />

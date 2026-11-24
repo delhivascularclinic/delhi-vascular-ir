@@ -13,7 +13,15 @@ export default function AboutPage() {
       <section className="bg-clinical px-5 py-16 lg:px-8">
         <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-[360px_1fr]">
           <div>
-            <div className="grid aspect-[4/5] place-items-center rounded-3xl border-2 border-dashed border-slate-300 bg-white text-center text-sm text-slate-400" data-testid="about-photo-placeholder">Professional photograph<br />to be supplied</div>
+            <figure className="relative overflow-hidden rounded-3xl shadow-[0_30px_70px_-30px_rgba(12,26,42,0.6)] ring-1 ring-black/5" data-testid="about-portrait">
+              <img src={CLINIC.portrait} alt={`${CLINIC.doctor}, ${CLINIC.role}`} width={1182} height={1576}
+                className="aspect-[4/5] w-full object-cover object-[center_30%]" />
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-navy/85 to-transparent" aria-hidden />
+              <figcaption className="absolute bottom-4 left-5 right-5 text-white">
+                <p className="font-heading text-lg font-semibold">{CLINIC.doctor}</p>
+                <p className="label-mono text-cyan">{CLINIC.quals}</p>
+              </figcaption>
+            </figure>
             <div className="mt-6 rounded-2xl bg-deep p-6 text-white">
               <p className="label-mono text-cyan">Qualifications</p>
               <p className="mt-2 font-heading text-xl">{CLINIC.quals}</p>

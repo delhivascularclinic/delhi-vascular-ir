@@ -46,3 +46,5 @@ Explorer share button → /explorer/{slug}?step=N (native share sheet or clipboa
 - Logo is a public uploaded asset, referenced as `CLINIC.logo` in `frontend/src/data/index.ts`; used in header (logo only on mobile), footer lockup, admin inbox header, favicon/apple icon and OpenGraph image.
 - 3D scenes: device/glow accents silver, lights crimson; anatomy colours unchanged.
 - Homepage intro section shows an uploaded, illustrative procedure-suite photo (`CLINIC.procedureImage`, public asset) captioned 'Illustrative image'. It is AI-generated and intentionally NOT used as Dr. Shankar's portrait (About page placeholder remains).
+- Doctor portrait (public asset, `CLINIC.portrait`) on About page and homepage hero doctor card.
+- Clinic timings `CLINIC.hours`: Mon–Sat 6–9 PM, Sun 9 AM–12 PM (contact page table + details list + footer). Landmark: opposite DLF MidTown Plaza mall. Google reviews link `CLINIC.reviewsLink` (search "girendra shankar") on contact page + footer.
